@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kan Biosys - Salesforce Solution Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p1:#2a0f4f; --p2:#3b1675; --p3:#5b21b6; --p4:#7c3aed; --p5:#a855f7; --lilac:#c4b5fd;
+  --ink:#1b1330; --muted:#5d5575; --line:#e6defa; --soft:#faf8ff; --card:#fff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Poppins",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+h1,h2,h3,h4,p{margin:0}
+button{font:inherit;cursor:pointer;color:inherit}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* ---------- header ---------- */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:30;color:#fff;transition:background .25s,box-shadow .25s,color .25s}
+.hdr.solid{background:rgba(255,255,255,.97);color:var(--ink);box-shadow:0 2px 14px rgba(60,20,120,.1)}
+.hdr .wrap{display:flex;justify-content:space-between;align-items:center;height:76px}
+.brand{display:flex;align-items:center;gap:14px;border:0;background:none;padding:0;text-align:left}
+.logo{width:52px;height:52px;border-radius:13px;background:linear-gradient(135deg,var(--p4),var(--p5));display:grid;place-items:center;color:#fff;font-weight:700;font-size:22px;box-shadow:0 8px 22px rgba(124,58,237,.45)}
+.brand b{display:block;font-size:20px;line-height:1.1}
+.brand b span{color:var(--lilac)}
+.hdr.solid .brand b span{color:var(--p4)}
+.brand small{display:block;font-size:11px;letter-spacing:.22em;opacity:.75;margin-top:4px}
+.prep{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500}
+.prep span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:6px 16px;border-radius:999px;font-weight:600}
+.hdr.solid .prep span{background:#f1ebff;border-color:#e6defa;color:var(--p3)}
+
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(1200px 600px at 70% -10%,#5b21b6 0,transparent 60%),linear-gradient(180deg,var(--p1),#3b1675 70%,#4c1d95);color:#fff;padding:150px 0 90px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(circle at 50% 40%,#000 0,transparent 70%)}
+.hero .wrap{position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:9px 22px;border-radius:999px;border:1px solid rgba(196,181,253,.45);background:rgba(124,58,237,.18);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.eyebrow i{width:10px;height:10px;border-radius:50%;background:var(--p5);display:inline-block}
+.hero h1{font-size:clamp(34px,6vw,68px);font-weight:700;line-height:1.12;margin:30px auto 18px;max-width:980px}
+.hero h1 .g1{background:linear-gradient(90deg,#c4b5fd,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .g2{background:linear-gradient(90deg,#a855f7,#e879f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{font-size:18px;opacity:.85;max-width:720px;margin:0 auto 44px}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1040px;margin:0 auto 40px}
+.chip{display:flex;align-items:center;gap:14px;text-align:left;padding:16px 20px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(196,181,253,.28)}
+.chip .ic{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--p3),var(--p4));display:grid;place-items:center;font-size:22px;flex:0 0 auto}
+.chip small{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.chip b{font-size:16px}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{border-radius:999px;padding:15px 30px;font-weight:600;font-size:16px;border:1px solid rgba(196,181,253,.5);background:rgba(255,255,255,.08);color:#fff}
+.btn.pri{background:linear-gradient(135deg,var(--p3),var(--p5));border-color:transparent;box-shadow:0 10px 30px rgba(124,58,237,.5)}
+.btn:hover{filter:brightness(1.1)}
+
+/* ---------- sections ---------- */
+.sec{padding:84px 0}
+.sec.soft{background:var(--soft)}
+.head{text-align:center;margin-bottom:44px}
+.tagpill{display:inline-block;padding:8px 22px;border-radius:999px;background:#f3eeff;border:1px solid var(--line);color:var(--p3);font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.head h2{font-size:clamp(28px,4.4vw,48px);font-weight:700;margin:22px 0 14px;line-height:1.15}
+.head h2 em{font-style:normal;background:linear-gradient(90deg,var(--p3),var(--p5));-webkit-background-clip:text;background-clip:text;color:transparent}
+.head p{color:var(--muted);max-width:760px;margin:0 auto;font-size:17px}
+
+/* big picture strip */
+.strip{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center}
+.sp{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:600;box-shadow:0 4px 16px rgba(91,33,182,.08)}
+.sp.off{opacity:.5}
+.sa{color:var(--p4);font-size:22px;font-weight:700}
+
+/* timeline */
+.tl{position:relative;max-width:1000px;margin:0 auto;padding:20px 0}
+.tl::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;background:linear-gradient(var(--p4),var(--p5) 60%,#e6defa);border-radius:4px}
+.start{display:table;margin:0 auto 34px;position:relative;z-index:2;padding:14px 32px;border-radius:999px;background:linear-gradient(135deg,var(--p3),var(--p5));color:#fff;font-weight:700;letter-spacing:.16em;font-size:14px;box-shadow:0 10px 28px rgba(124,58,237,.35)}
+.ti{position:relative;display:grid;grid-template-columns:1fr 1fr;margin-bottom:36px}
+.ti .dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-weight:700;font-size:22px;display:grid;place-items:center;border:6px solid #efe7ff;z-index:2;box-shadow:0 8px 24px rgba(124,58,237,.35)}
+.ti .card{grid-column:2;margin-left:70px}
+.ti:nth-of-type(even) .card{grid-column:1;margin-left:0;margin-right:70px}
+.card{background:#fff;border:1px solid var(--line);border-left:6px solid var(--p4);border-radius:18px;padding:22px 26px;text-align:left;box-shadow:0 6px 22px rgba(60,20,120,.07)}
+.ti:nth-of-type(even) .card{border-left:1px solid var(--line);border-right:6px solid var(--p4)}
+.card .ic{width:56px;height:56px;border-radius:14px;background:#f5f0ff;display:grid;place-items:center;font-size:26px;float:left;margin-right:16px}
+.card small{display:block;font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--p4);text-transform:uppercase}
+.card h3{font-size:21px;margin:2px 0 8px}
+.card p{color:var(--muted);font-size:15px;clear:both;margin-bottom:12px}
+.card .go{color:var(--p4);font-weight:600}
+.card.live{cursor:pointer;transition:transform .2s,box-shadow .2s;width:100%}
+.card.live:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(91,33,182,.18)}
+.card.off{opacity:.55}
+.card.off .go{color:var(--muted)}
+
+/* ---------- module page ---------- */
+.mhero{background:linear-gradient(180deg,var(--p1),#3b1675);color:#fff;padding:120px 0 54px}
+.back{border:1px solid rgba(196,181,253,.5);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:600}
+.mhero h1{font-size:clamp(30px,4.6vw,52px);margin:22px 0 12px;line-height:1.15}
+.mhero h1 span{color:var(--lilac)}
+.mhero p{max-width:820px;font-size:17px;opacity:.88}
+.mhero .eyebrow{margin-top:26px}
+.subnav{position:sticky;top:76px;z-index:20;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line)}
+.subnav .wrap{display:flex;gap:6px;overflow-x:auto}
+.subnav button{border:0;background:none;padding:15px 18px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+.subnav button:hover{color:var(--p3);border-bottom-color:var(--p4)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.type{background:#fff;border:1px solid var(--line);border-top:6px solid var(--c);border-radius:16px;padding:20px 22px}
+.type h3{color:var(--c);font-size:18px;margin-bottom:10px}
+.type dl{margin:0;font-size:14px}
+.type dt{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:9px}
+.type dd{margin:1px 0 0}
+.conn{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:22px}
+.conn div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:14px}
+.conn b{display:block;color:var(--p3)}
+.conn span{color:var(--muted);font-size:13px}
+
+/* vertical paths */
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin-bottom:26px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+.seg button{border:0;background:#fff;padding:9px 18px;font-size:14px;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--p3);color:#fff}
+.pbtn{border:0;border-radius:999px;padding:10px 22px;font-weight:600;font-size:14px;background:linear-gradient(135deg,var(--p3),var(--p5));color:#fff}
+.pbtn.ghost{background:#fff;color:var(--p3);border:1px solid var(--p4)}
+.hint{font-size:13px;color:var(--muted)}
+.vs{position:relative;margin-top:20px}
+.vs:first-child{margin-top:0}
+.vs+.vs::before{content:"\2193";position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:15px;line-height:16px;color:var(--p4);font-weight:700}
+.vstep{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;text-align:left;background:#fff;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:8px 12px;font-size:13.5px;font-weight:600;line-height:1.3;transition:box-shadow .2s,transform .2s}
+.vstep:hover{box-shadow:0 6px 18px rgba(91,33,182,.16)}
+.vstep .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--c);color:#fff;font-size:11px;display:grid;place-items:center}
+.vstep .qm{margin-left:auto;flex:0 0 auto;width:18px;height:18px;border-radius:50%;background:#fef3c7;color:#92400e;font-size:11px;display:grid;place-items:center;font-weight:700}
+.vpar{border:1.5px dashed #b9a6ee;border-radius:12px;background:#faf7ff;padding:22px 8px 8px}
+.vpar::after{content:"at the same time";position:absolute;top:4px;left:12px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b78c4}
+.vpar .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vpar .vstep{font-size:12.5px;padding:7px 8px;gap:7px}
+.vs.live>.vstep,.vs.live.vpar{box-shadow:0 0 0 3px var(--c);transform:translateY(-1px)}
+.vs.live.vpar>.pair .vstep{box-shadow:0 0 0 2px var(--c)}
+.paths.playing .vs:not(.live){opacity:.35}
+.startcol{max-width:340px;margin:0 auto}
+.split{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin:22px 0;text-align:center}
+.split::before,.split::after{content:"";flex:1;border-top:2px dashed #cdbff3}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
+.col{border:1px solid var(--line);border-top:5px solid var(--c);border-radius:16px;padding:16px 14px 18px;background:#fff;transition:opacity .25s}
+.col.dim{opacity:.28}
+.col h3{font-size:15px;color:var(--c);margin-bottom:14px}
+.col .out{margin-top:16px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.col .out b{color:var(--c)}
+.engine{margin-top:26px;border:1px solid var(--line);border-top:5px solid #b45309;border-radius:16px;padding:16px 16px 18px;background:#fff}
+.engine h3{font-size:15px;color:#b45309;margin-bottom:12px}
+.engine .row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.engine .vs{margin-top:0}
+.engine .vs+.vs::before{content:"\2192";top:50%;left:-10px;transform:translate(-50%,-50%)}
+
+/* journey steps */
+.jl{position:relative;max-width:980px;margin:0 auto}
+.jl::before{content:"";position:absolute;left:26px;top:10px;bottom:10px;width:3px;background:linear-gradient(var(--p4),#e6defa)}
+details.js{position:relative;margin:0 0 16px 70px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 16px rgba(60,20,120,.05)}
+details.js>summary{list-style:none;cursor:pointer;padding:16px 22px;display:flex;gap:12px;align-items:center}
+details.js>summary::-webkit-details-marker{display:none}
+details.js>summary::after{content:"+";margin-left:auto;font-size:24px;color:var(--p4)}
+details.js[open]>summary::after{content:"\2212"}
+details.js .num{position:absolute;left:-70px;top:12px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-weight:700;font-size:19px;display:grid;place-items:center;border:5px solid #efe7ff}
+details.js h3{font-size:18px}
+details.js .pu{font-size:14px;color:var(--muted)}
+.jb{padding:0 24px 22px}
+.jb h4{margin:16px 0 6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--p3)}
+.jb ul{margin:0;padding-left:20px}
+.jb li{margin:5px 0;font-size:14.5px}
+.outcome{margin-top:16px;background:#f5f0ff;border-radius:12px;padding:11px 16px;font-size:14.5px}
+.outcome b{color:var(--p3)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:#f8f5ff}
+.tw{border:1px solid var(--line);border-radius:14px;overflow:auto;background:#fff}
+.qlink{border:0;background:#fef3c7;color:#92400e;border-radius:999px;padding:3px 12px;font-size:12.5px;font-weight:700;margin:2px 4px 2px 0}
+.qsel{border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:inherit;font-size:14px;background:#fff}
+tr.flash td{background:#fff7d6}
+
+/* panel */
+.panel{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:#fff;border-left:1px solid var(--line);box-shadow:-10px 0 34px rgba(40,10,90,.18);padding:30px 26px;overflow:auto;transform:translateX(105%);transition:transform .25s;z-index:40}
+.panel.open{transform:none}
+.panel .x{position:absolute;top:14px;right:16px;border:0;background:#f3eeff;border-radius:8px;width:34px;height:34px;font-size:20px;color:var(--p3)}
+.panel small{color:var(--muted);font-size:13px}
+.panel h3{font-size:22px;margin:6px 0 12px}
+.panel h5{margin:18px 0 6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--p3)}
+.panel .qi{background:#fffbeb;border:1px solid #f6e3a1;border-radius:10px;padding:9px 12px;margin:6px 0;font-size:14px}
+
+footer{background:var(--p1);color:#cfc3ee;text-align:center;padding:30px 20px;font-size:13.5px}
+
+@media (max-width:860px){
+  .cols{grid-template-columns:1fr}
+  .engine .row{grid-template-columns:1fr 1fr}
+  .tl::before{left:38px}
+  .ti{grid-template-columns:1fr}
+  .ti .dot{left:38px;top:34px;transform:translate(-50%,0);width:60px;height:60px;font-size:18px}
+  .ti .card,.ti:nth-of-type(even) .card{grid-column:1;margin:0 0 0 84px;border-right:1px solid var(--line);border-left:6px solid var(--p4)}
+  .prep{display:none}
+  .hdr .wrap{height:68px}
+  .subnav{top:68px}
+}
+
+</style>
+</head>
+<body>
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <button class="brand" id="brand" aria-label="Back to start">
+      <span class="logo">C</span>
+      <span><b id="coName"></b><small id="coTag"></small></span>
+    </button>
+    <div class="prep">Prepared for <span id="prepFor"></span></div>
+  </div>
+</header>
+
+<main id="app"></main>
+<aside class="panel" id="panel" aria-live="polite"></aside>
+<footer id="foot"></footer>
+
+<script>
+/* =====================================================================
+   KAN BIOSYS - SOLUTION PROPOSAL DATA
+   All content lives here. app.js only renders it.
+
+   TO ADD A MODULE: add an object to `modules` (copy the Lead one).
+   - status "active"  : card is clickable and opens the module journey
+   - status "coming"  : card is shown greyed out on the timeline
+   A module needs: id, no, icon, name, tagline, summary, leadTypes (optional),
+   flow, subModules, questions. Everything else is optional.
+   ===================================================================== */
+window.KB_DOC = {
+  company: { name: "Creatique", rest: "Technologies", tagline: "YOU DREAM. WE DELIVER." },
+  project: { client: "Kan Biosys", version: "Draft 0.1", date: "25 Nov 2026" },
+
+  hero: {
+    pill: "Digital Transformation Proposal",
+    a: "Your Complete", b: "Salesforce Journey", c: "for Kan Biosys",
+    sub: "From the first inquiry to a converted dealer, farmer or distributor: one connected journey, module by module."
+  },
+  chips: [
+    { icon: "🏢", label: "Solution partner", value: "Creatique Technologies" },
+    { icon: "🤝", label: "Client", value: "Kan Biosys" },
+    { icon: "🧩", label: "Scope", value: "Modules added step by step" },
+    { icon: "⇄", label: "Backbone", value: "Salesforce + SAP" }
+  ],
+  bigPicture: {
+    eyebrow: "The big picture",
+    a: "One Connected Flow", b: "Built Module by Module",
+    sub: "Every module hands over cleanly to the next. No re-entry, no lost information: a single digital thread through the business."
+  },
+
+  modules: [
+    {
+      id: "lead", no: "01", icon: "🎯", status: "active",
+      name: "Lead Management",
+      tagline: "New dealer, farmer and distributor leads: capture, assign, qualify, follow up, convert",
+      summary:
+        "Every new lead, from every channel, is captured once, checked for duplicates, given an owner, qualified, followed up and " +
+        "converted into the right record. Dealers, farmers and B2B / export distributors each follow their own path inside one module.",
+
+      leadTypes: [
+        { id: "dealer", name: "Dealer lead", color: "#2563eb", icon: "🏪",
+          who: "Retailer, sub-dealer or distributor not yet active with the company",
+          source: "Field employee first visit, dealer call, website form",
+          owner: "Sales team", end: "Becomes a regular dealer after the first successful transaction" },
+        { id: "farmer", name: "Farmer lead", color: "#15803d", icon: "🌾",
+          who: "Farmer asking for product information or a nearby dealer",
+          source: "Call centre, WhatsApp, chatbot, website, ads, demos, Van campaigns, farmer meetings",
+          owner: "Call centre first, then 3-4 nearby dealers", end: "Becomes a buying farmer in Farmer 360" },
+        { id: "b2b", name: "B2B / Export lead", color: "#7c3aed", icon: "🌍",
+          who: "Large distributor or importing company",
+          source: "Conferences, exhibitions, email, LinkedIn, website, referrals",
+          owner: "Business development team", end: "Becomes a client after NDA, samples, testing and first order" }
+      ],
+
+      connects: [
+        { n: "Dealer 360 / Farmer 360", d: "Where converted leads land" },
+        { n: "SAP", d: "Dealer code and customer master" },
+        { n: "Marketing Cloud and WhatsApp", d: "Lead capture, campaigns and reminders" },
+        { n: "Call centre", d: "First contact for farmer leads" },
+        { n: "Territory and dealer data", d: "Needed for assignment and farmer-dealer tagging" },
+        { n: "Government portal and credit check", d: "GST, licence and credit verification" }
+      ],
+
+      /* ---------- journey steps (sub-modules) ---------- */
+      subModules: [
+        {
+          id: "lc", no: 1, name: "Lead Creation",
+          purpose: "Every new lead, whatever the channel, lands in one Lead record with its lead type: Dealer, Farmer or B2B / Export.",
+          points: [
+            "Channel (how it was captured) and Lead Source (where it came from) are two separate fields, so reports stay clear.",
+            "The lead type is set at creation and decides which path the lead follows."
+          ],
+          channels: [
+            { n: "WhatsApp", type: "Farmer", note: "Messages create a lead that is routed to the call centre" },
+            { n: "Web-to-Lead / website form", type: "Dealer, B2B, Export", note: "Website and email inquiries create a lead automatically" },
+            { n: "Manual by Sales (field app)", type: "Dealer", note: "Employee finds a new dealer on a first visit; name, shop and contact are captured" },
+            { n: "Call Centre", type: "Farmer, Dealer", note: "First point of contact for inbound inquiries" },
+            { n: "Campaign", type: "Farmer, B2B", note: "Van campaigns, email campaigns, farmer meetings" },
+            { n: "Meeting / Exhibition / Conference", type: "B2B, Export, Farmer", note: "Visiting cards collected; faster data entry wanted" },
+            { n: "Referral", type: "Dealer, B2B", note: "Dealer reference or institutional contact" },
+            { n: "Email / LinkedIn", type: "B2B, Export", note: "Inquiries received by email or LinkedIn" }
+          ],
+          outcome: "Every lead lands in one place with its channel and source recorded.",
+          q: ["Q-07", "Q-13", "Q-14"]
+        },
+        {
+          id: "dq", no: 2, name: "Duplicate and Data Quality",
+          purpose: "Each new lead is checked against existing Leads, Accounts, Dealers and Farmers before an owner is assigned.",
+          points: [
+            "Existing customers also send new inquiries, so matching against current records is needed.",
+            "Phone number alone is a weak match (shared phones, WhatsApp), so the matching key must be agreed."
+          ],
+          outcome: "One record per real customer, no duplicates.",
+          q: ["Q-08"]
+        },
+        {
+          id: "la", no: 3, name: "Lead Assignment",
+          purpose: "Decide who owns the lead: sales team, call centre or business development team.",
+          points: [
+            "Farmer leads go to the call centre first.",
+            "Dealer and B2B leads go to their team. The rule for picking the person still has to be agreed.",
+            "Territory data for dealers does not exist today, which limits territory-based assignment."
+          ],
+          outcome: "Every lead has an owner the moment it is created.",
+          q: ["Q-01", "Q-02", "Q-06"]
+        },
+        {
+          id: "ft", no: 4, name: "Farmer-Dealer Tagging",
+          purpose: "A farmer lead is linked to 3-4 dealers within 15-20 km using GPS, and the dealer is informed.",
+          points: [
+            "GPS coordinates and farm details are captured for tracking.",
+            "A small discount or cashback can be offered to a farmer who buys after being linked to a dealer.",
+            "Needs clean dealer location and territory data."
+          ],
+          outcome: "Every farmer lead is connected to nearby dealers.",
+          q: ["Q-04", "Q-05", "Q-06"]
+        },
+        {
+          id: "lq", no: 5, name: "Lead Qualification",
+          purpose: "The checks a lead must pass before it can convert.",
+          points: [
+            "Dealer: classify type, verify GST, check licence on the government portal, run a credit check, sales accounts approve.",
+            "B2B: evaluate the partnership in a meeting, sign the NDA, understand the customer's needs.",
+            "No pricing is shared with a B2B lead until the NDA is signed."
+          ],
+          outcome: "Only checked and approved leads move forward.",
+          q: ["Q-10", "Q-12"]
+        },
+        {
+          id: "af", no: 6, name: "Activities and Follow-up",
+          purpose: "Record visits, calls, meetings, voice notes, samples and demos, remind owners, and re-engage cold leads.",
+          points: [
+            "Automatic email reminders for inactive leads, with escalation to senior managers.",
+            "Cold leads are re-engaged with occasional emails, campaigns and exhibitions.",
+            "Client knowledge stays in the system, not with one employee."
+          ],
+          outcome: "No lead is forgotten and every interaction is on record.",
+          q: ["Q-09", "Q-11"]
+        },
+        {
+          id: "cv", no: 7, name: "Lead Conversion",
+          purpose: "Convert the lead into the right record and close it.",
+          points: [
+            "Dealer: after the first successful transaction, the dealer is treated as a regular dealer (Dealer 360).",
+            "Farmer: after the first purchase, tracked in Farmer 360.",
+            "B2B: conversion point to be confirmed.",
+            "Our recommendation: dealer onboarding needs an Account and onboarding steps, not an Opportunity. Only B2B has a long sales cycle."
+          ],
+          outcome: "Each lead becomes the right record: Dealer 360, Farmer 360 or a B2B account.",
+          q: ["Q-03", "Q-04", "Q-15"]
+        },
+        {
+          id: "rp", no: 8, name: "Reporting and Dashboards",
+          purpose: "Show leads by source, conversion rate, inactive leads, and which events give results.",
+          points: [
+            "Weak events can be dropped and effort moved to those that bring leads.",
+            "A funnel view from first contact to first order."
+          ],
+          outcome: "Management sees which channels and events work.",
+          q: ["Q-13"]
+        }
+      ],
+
+      /* ---------- journey paths ---------- */
+      flow: {
+        start: {
+          name: "Every lead starts here", color: "#475569",
+          steps: [
+            { id: "sh1", t: "Lead arrives", sub: "lc", d: "A new lead reaches the system through one of the channels: WhatsApp, web form, field app, call centre, campaign, event, referral or email." },
+            { id: "sh2", t: "Lead record created", sub: "lc", d: "One Lead object with three types: Dealer, Farmer, B2B / Export. Channel and Lead Source are stored separately." },
+            { id: "sh3", t: "Duplicate check", sub: "dq", q: ["Q-08"], d: "The new lead is matched against Leads, Accounts, Dealers and Farmers. The matching key is still to be agreed." }
+          ]
+        },
+        lanes: [
+          {
+            id: "dealer", name: "Dealer path", color: "#2563eb", icon: "🏪",
+            outcome: "A verified dealer with a dealer code, ready to order",
+            steps: [
+              { id: "d1", t: "Assign to sales team", sub: "la", q: ["Q-01", "Q-06"], d: "The lead goes to the sales team. How the individual owner is picked is still to be agreed." },
+              { id: "d2", t: "First visit and capture", sub: "lq", d: "The employee captures name, shop, contact and dealer type (wholesaler, distributor or retailer) on the first visit." },
+              [
+                { id: "d3", t: "GST and licence check", sub: "lq", q: ["Q-10"], d: "GST and licence are verified on the government portal. Transactions begin only after licences are confirmed." },
+                { id: "d4", t: "Credit check", sub: "lq", q: ["Q-10"], d: "A credit check is run and the result goes to sales accounts. Whether it runs together with the GST check is to be confirmed." }
+              ],
+              { id: "d5", t: "Accounts approve, dealer code created", sub: "lq", d: "Sales accounts decide using the check results. The dealer is created and the SAP code is issued; payment mapping and order flow begin after this." },
+              { id: "d6", t: "First order, regular dealer", sub: "cv", q: ["Q-15"], d: "Onboarding completes with the first successful transaction. The dealer is then treated as a regular dealer (Dealer 360)." }
+            ]
+          },
+          {
+            id: "farmer", name: "Farmer path", color: "#15803d", icon: "🌾",
+            outcome: "A farmer connected to nearby dealers and buying",
+            steps: [
+              { id: "f1", t: "Call centre first contact", sub: "la", q: ["Q-04"], d: "The call centre handles the inbound inquiry first. WhatsApp leads are routed here." },
+              { id: "f2", t: "Tag to 3-4 nearby dealers", sub: "ft", q: ["Q-05", "Q-06"], d: "Using GPS, the farmer is linked to 3-4 dealers within 15-20 km. This needs clean dealer location and territory data." },
+              { id: "f3", t: "Dealer informed", sub: "ft", d: "The dealer receives the lead and gives product information and local contact to the farmer." },
+              [
+                { id: "f4", t: "Sample or demo plot", sub: "af", q: ["Q-11"], d: "Samples are sent directly to farmers. Demo plots are planned in place of samples and linked to visit management." },
+                { id: "f5", t: "Discount or cashback", sub: "ft", d: "A small discount or cashback code is sent by SMS or WhatsApp for a farmer who buys after being linked to a dealer." }
+              ],
+              { id: "f6", t: "First purchase", sub: "cv", q: ["Q-04"], d: "The farmer becomes a buying farmer in Farmer 360. Whether a farmer is a Lead first, or created directly in Farmer 360, is still to be decided." }
+            ]
+          },
+          {
+            id: "b2b", name: "B2B / Export path", color: "#7c3aed", icon: "🌍",
+            outcome: "A qualified distributor with an order",
+            steps: [
+              { id: "b1", t: "Assign to business development", sub: "la", q: ["Q-02"], d: "The lead goes to the business development team. The rule for picking the person (country, product) is still to be agreed." },
+              { id: "b2", t: "Meeting and evaluation", sub: "lq", d: "A meeting assesses the potential partnership." },
+              { id: "b3", t: "NDA signed", sub: "lq", d: "An NDA is signed before technical information is shared. No pricing is shared before this." },
+              { id: "b4", t: "Needs discussion", sub: "af", d: "Customer needs are discussed: an existing product or a custom formulation." },
+              [
+                { id: "b5", t: "Samples sent and tested", sub: "af", q: ["Q-11"], d: "Samples are sent and tested. Approval follows testing." },
+                { id: "b6", t: "Credit assessment", sub: "lq", q: ["Q-10"], d: "Credit assessment of the client. The exact point where it happens is to be confirmed." }
+              ],
+              { id: "b7", t: "Commercial terms and BOM", sub: "af", d: "After testing approval, commercial terms are discussed and the internal BOM is set up." },
+              { id: "b8", t: "Purchase order", sub: "cv", q: ["Q-03"], d: "The customer sends an email or purchase order. Whether the lead converts here, or earlier, is to be confirmed." }
+            ]
+          }
+        ],
+        engine: {
+          name: "Follow-up engine: runs alongside every path", color: "#b45309",
+          steps: [
+            { id: "e1", t: "Lead goes inactive", sub: "af", q: ["Q-09"], d: "A lead is cold when interest fades and responses decrease. The number of days is to be agreed." },
+            { id: "e2", t: "Reminder to owner", sub: "af", d: "An automatic email reminds the lead owner." },
+            { id: "e3", t: "Escalate to managers", sub: "af", q: ["Q-09"], d: "Senior managers are notified about inactive leads." },
+            { id: "e4", t: "Re-engage", sub: "af", d: "Emails, greetings, campaigns and exhibitions bring the lead back. Interest often returns after a few months, and the lead goes back to its path." }
+          ]
+        }
+      },
+
+      /* ---------- questions ---------- */
+      questions: [
+        { id: "Q-01", sub: "la", q: "How are dealer leads assigned: by territory, product, region or round-robin? Who is the fallback owner?", why: "Without a rule the lead has no owner and follow-up fails." },
+        { id: "Q-02", sub: "la", q: "How are B2B and export leads assigned: by country, product or person?", why: "Conference leads are few but high value, so ownership must be clear." },
+        { id: "Q-03", sub: "cv", q: "At which point is a B2B lead converted: NDA, samples approved, or first purchase order?", why: "Decides whether an Opportunity is needed and when the lead closes." },
+        { id: "Q-04", sub: "cv", q: "Is a farmer a Lead first, or created directly as a Farmer 360 record? How many farmer leads are expected?", why: "Affects the data model, data volume and licensing." },
+        { id: "Q-05", sub: "ft", q: "Is the dealer radius 15 km or 20 km? Does the system or the farmer choose the dealer? What happens if no dealer is in range?", why: "The rule must be exact to automate it." },
+        { id: "Q-06", sub: "ft", q: "Dealer-to-territory tagging does not exist today. Who prepares the dealer location and territory data, and by when?", why: "Farmer-dealer tagging and territory assignment depend on it." },
+        { id: "Q-07", sub: "lc", q: "Which product captures WhatsApp leads: Marketing Cloud, Agentforce, or another WhatsApp provider? Are the licences in place?", why: "Features and cost depend on the choice." },
+        { id: "Q-08", sub: "dq", q: "What is the unique key for duplicate checking: phone, GST number, SAP code or email?", why: "A wrong key creates duplicates or merges different people." },
+        { id: "Q-09", sub: "af", q: "After how many days without activity is a lead inactive? Who receives the reminder and the escalation?", why: "Needed to build the reminder automation." },
+        { id: "Q-10", sub: "lq", q: "Are GST, licence and credit checks mandatory gates before a dealer is created? Do they run one after another or together?", why: "Decides whether the system blocks the next step." },
+        { id: "Q-11", sub: "af", q: "Are samples part of Lead Management or a separate Sample Management module?", why: "Decides where sample tracking is built." },
+        { id: "Q-12", sub: "lq", q: "Can you share the stage list of your sales journey and B2B pipeline?", why: "We need the exact stage names to build the pipeline." },
+        { id: "Q-13", sub: "lc", q: "How many leads do you expect per month, and how many per conference?", why: "Sets data volume and reporting needs." },
+        { id: "Q-14", sub: "lc", q: "Is your current field app built on Salesforce, or is it a separate system we must connect to?", why: "Decides whether field lead capture is a new screen or an integration." },
+        { id: "Q-15", sub: "cv", q: "Does dealer onboarding need an Opportunity? We recommend no: an Account plus onboarding steps is enough. Please confirm.", why: "Avoids building a sales pipeline for what is an approval process." },
+        { id: "Q-16", sub: "lc", q: "Which Salesforce edition and licences do you have (Sales Cloud, Service Cloud, Marketing Cloud, Experience Cloud, Agentforce)?", why: "Available features, limits and cost depend on it." }
+      ]
+    },
+
+    { id: "opp", no: "02", icon: "📈", status: "coming", name: "Opportunity",
+      tagline: "Coming next", summary: "" },
+    { id: "exp", no: "03", icon: "🚢", status: "coming", name: "Export",
+      tagline: "Coming after Opportunity", summary: "" }
+  ]
+};
+
+</script>
+<script>
+/* Renders window.KB_DOC (see data.js). No content lives in this file. */
+(function () {
+  "use strict";
+  var D = window.KB_DOC;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+  var state = { lane: "all", qsub: "all", timer: null, mod: null };
+
+  function modById(id) { return D.modules.filter(function (m) { return m.id === id && m.status === "active"; })[0]; }
+
+  /* ---------- static chrome ---------- */
+  function chrome() {
+    $("#coName").innerHTML = esc(D.company.name) + " <span>" + esc(D.company.rest) + "</span>";
+    $("#coTag").textContent = D.company.tagline;
+    $("#prepFor").textContent = D.project.client;
+    $("#foot").textContent = D.company.name + " " + D.company.rest + " | " + D.project.client + " Solution Proposal | " + D.project.version + " | " + D.project.date;
+    document.title = D.project.client + " - Salesforce Solution Proposal";
+  }
+  function onScroll() {
+    var solid = window.scrollY > 40 || !!state.mod;
+    $("#hdr").classList.toggle("solid", solid);
+  }
+
+  /* ---------- home ---------- */
+  function home() {
+    var h = D.hero, bp = D.bigPicture;
+    var out = '<section class="hero"><div class="wrap">' +
+      '<span class="eyebrow"><i></i>' + esc(h.pill) + "</span>" +
+      '<h1>' + esc(h.a) + ' <span class="g1">' + esc(h.b) + '</span> ' + esc(h.c) + "</h1>" +
+      '<p class="sub">' + esc(h.sub) + "</p>" +
+      '<div class="chips">' + D.chips.map(function (c) {
+        return '<div class="chip"><span class="ic">' + c.icon + "</span><div><small>" + esc(c.label) + "</small><b>" + esc(c.value) + "</b></div></div>";
+      }).join("") + "</div>" +
+      '<div class="cta"><button class="btn pri" data-scroll="modules">Explore the Journey &#8595;</button>' +
+      '<button class="btn" data-open="' + esc(D.modules[0].id) + '">Start at Module 01 &#8594;</button></div></div></section>';
+
+    out += '<section class="sec soft"><div class="wrap"><div class="head"><span class="tagpill">' + esc(bp.eyebrow) + "</span>" +
+      "<h2>" + esc(bp.a) + " &mdash; <em>" + esc(bp.b) + "</em></h2><p>" + esc(bp.sub) + "</p></div>" +
+      '<div class="strip">' + D.modules.map(function (m, i) {
+        return (i ? '<span class="sa">&#8594;</span>' : "") + '<span class="sp' + (m.status !== "active" ? " off" : "") + '">' + m.icon + " " + esc(m.name) + "</span>";
+      }).join("") + "</div></div></section>";
+
+    out += '<section class="sec" id="modules"><div class="wrap"><div class="head"><span class="tagpill">Solution modules</span>' +
+      "<h2>The <em>Module</em> Journey Path</h2><p>Click a module to walk through its complete journey: paths, steps and outcomes.</p></div>" +
+      '<div class="tl"><span class="start">JOURNEY STARTS</span>' +
+      D.modules.map(function (m) {
+        var live = m.status === "active", n = live ? m.subModules.length + " journey steps" : "Coming soon";
+        return '<div class="ti"><span class="dot">' + esc(m.no) + "</span>" +
+          (live ? '<button class="card live" data-open="' + m.id + '">' : '<div class="card off">') +
+          '<span class="ic">' + m.icon + "</span><small>Module " + esc(m.no) + " &middot; " + n + "</small><h3>" + esc(m.name) + "</h3><p>" + esc(m.tagline) + "</p>" +
+          '<span class="go">' + (live ? "Explore this module&rsquo;s journey &#8594;" : "Details to follow") + "</span>" +
+          (live ? "</button>" : "</div>") + "</div>";
+      }).join("") + "</div></div></section>";
+    return out;
+  }
+
+  /* ---------- module view ---------- */
+  function subLabel(m, id) {
+    var s = m.subModules.filter(function (x) { return x.id === id; })[0];
+    return s ? "Step " + s.no + ": " + s.name : "";
+  }
+  function stepBtn(s, color, n) {
+    return '<button class="vstep" data-step="' + s.id + '"><span class="n">' + n + "</span><span>" + esc(s.t) + "</span>" +
+      (s.q && s.q.length ? '<span class="qm" title="Has a question for you">?</span>' : "") + "</button>";
+  }
+  /* returns html for a vertical stack; seq numbers are used by the play animation */
+  function stack(steps, color, laneId) {
+    var n = 0;
+    return steps.map(function (it, i) {
+      if (Array.isArray(it)) {
+        var a = it.map(function (s) { n++; return stepBtn(s, color, n); }).join("");
+        return '<div class="vs vpar" data-lane="' + laneId + '" data-seq="' + i + '" style="--c:' + color + '"><div class="pair">' + a + "</div></div>";
+      }
+      n++;
+      return '<div class="vs" data-lane="' + laneId + '" data-seq="' + i + '" style="--c:' + color + '">' + stepBtn(it, color, n) + "</div>";
+    }).join("");
+  }
+  function moduleView(m) {
+    var f = m.flow;
+    var out = '<section class="mhero"><div class="wrap"><button class="back" data-home="1">&#8592; All modules</button>' +
+      '<span class="eyebrow"><i></i>Module ' + esc(m.no) + " &middot; " + m.subModules.length + " journey steps</span>" +
+      "<h1>" + esc(m.icon) + " <span>" + esc(m.name) + "</span></h1><p>" + esc(m.summary) + "</p></div></section>";
+
+    out += '<nav class="subnav"><div class="wrap">' +
+      '<button data-scroll="s-types">Lead types</button><button data-scroll="s-paths">Journey paths</button>' +
+      '<button data-scroll="s-steps">Journey steps</button><button data-scroll="s-q">Questions for you</button></div></nav>';
+
+    /* lead types */
+    out += '<section class="sec soft" id="s-types"><div class="wrap"><div class="head"><span class="tagpill">Who we serve</span>' +
+      "<h2>Three kinds of lead, <em>one module</em></h2><p>Each type has its own source, owner and finish line.</p></div><div class=\"types\">" +
+      m.leadTypes.map(function (t) {
+        return '<div class="type" style="--c:' + t.color + '"><h3>' + t.icon + " " + esc(t.name) + "</h3><dl>" +
+          "<dt>Who</dt><dd>" + esc(t.who) + "</dd><dt>Where it comes from</dt><dd>" + esc(t.source) + "</dd>" +
+          "<dt>Owner</dt><dd>" + esc(t.owner) + "</dd><dt>Finish line</dt><dd>" + esc(t.end) + "</dd></dl></div>";
+      }).join("") + '</div><div class="conn">' + m.connects.map(function (c) {
+        return "<div><b>" + esc(c.n) + "</b><span>" + esc(c.d) + "</span></div>";
+      }).join("") + "</div></div></section>";
+
+    /* paths */
+    out += '<section class="sec" id="s-paths"><div class="wrap"><div class="head"><span class="tagpill">Journey paths</span>' +
+      "<h2>Three paths, <em>side by side</em></h2><p>Every lead starts the same way, then follows its own path from top to bottom. Click any step for details.</p></div>" +
+      '<div class="ctrl"><div class="seg">' +
+      ['all'].concat(f.lanes.map(function (l) { return l.id; })).map(function (id) {
+        var nm = id === "all" ? "All paths" : f.lanes.filter(function (l) { return l.id === id; })[0].name;
+        return '<button data-lane-pick="' + id + '" class="' + (state.lane === id ? "on" : "") + '">' + esc(nm) + "</button>";
+      }).join("") + '</div><button class="pbtn" data-play="1">&#9654; Play selected path</button>' +
+      '<button class="pbtn ghost" data-stop="1">Stop</button><span class="hint">? marks a step with a question for you</span></div>' +
+      '<div class="paths" id="paths">' +
+      '<div class="startcol">' + stack(f.start.steps, f.start.color, "start") + "</div>" +
+      '<div class="split">the lead type decides the path</div><div class="cols">' +
+      f.lanes.map(function (l) {
+        return '<div class="col' + (state.lane !== "all" && state.lane !== l.id ? " dim" : "") + '" style="--c:' + l.color + '"><h3>' + l.icon + " " + esc(l.name) + "</h3>" +
+          stack(l.steps, l.color, l.id) + '<div class="out"><b>Outcome:</b> ' + esc(l.outcome) + "</div></div>";
+      }).join("") + "</div>" +
+      '<div class="engine"><h3>' + esc(f.engine.name) + '</h3><div class="row">' + f.engine.steps.map(function (s, i) {
+        return '<div class="vs" data-lane="engine" data-seq="' + i + '" style="--c:' + f.engine.color + '">' + stepBtn(s, f.engine.color, i + 1) + "</div>";
+      }).join("") + "</div></div></div></div></section>";
+
+    /* journey steps */
+    out += '<section class="sec soft" id="s-steps"><div class="wrap"><div class="head"><span class="tagpill">Journey steps</span>' +
+      "<h2>What each step <em>does</em></h2><p>The sub-modules of " + esc(m.name) + ", with the questions we need answered.</p></div><div class=\"jl\">" +
+      m.subModules.map(function (s) {
+        var h = '<details class="js"' + (s.no === 1 ? " open" : "") + '><summary><span class="num">' + s.no + "</span><div><h3>" + esc(s.name) +
+          '</h3><div class="pu">' + esc(s.purpose) + '</div></div></summary><div class="jb"><h4>How it works</h4><ul>' +
+          s.points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>";
+        if (s.channels) {
+          h += '<h4>Channels</h4><div class="tw"><table><thead><tr><th>Channel</th><th>Lead type</th><th>How it works</th></tr></thead><tbody>' +
+            s.channels.map(function (c) { return "<tr><td><b>" + esc(c.n) + "</b></td><td>" + esc(c.type) + "</td><td>" + esc(c.note) + "</td></tr>"; }).join("") + "</tbody></table></div>";
+        }
+        h += '<div class="outcome"><b>Outcome:</b> ' + esc(s.outcome) + "</div>";
+        if (s.q && s.q.length) h += "<h4>Questions for you</h4>" + s.q.map(function (id) { return '<button class="qlink" data-q="' + id + '">' + id + "</button>"; }).join("");
+        return h + "</div></details>";
+      }).join("") + "</div></div></section>";
+
+    /* questions */
+    out += '<section class="sec" id="s-q"><div class="wrap"><div class="head"><span class="tagpill">Questions for you</span>' +
+      "<h2>Help us <em>finalise</em> this module</h2><p>" + m.questions.length + " questions. Your answers decide how each step is built.</p></div>" +
+      '<div class="ctrl"><select class="qsel" id="qFilter"><option value="all">All journey steps</option>' +
+      m.subModules.map(function (s) { return '<option value="' + s.id + '"' + (state.qsub === s.id ? " selected" : "") + ">Step " + s.no + ": " + esc(s.name) + "</option>"; }).join("") + "</select></div>" +
+      '<div class="tw"><table><thead><tr><th>ID</th><th>Journey step</th><th>Question</th><th>Why we ask</th></tr></thead><tbody id="qBody">' + qRows(m) + "</tbody></table></div></div></section>";
+    return out;
+  }
+  function qRows(m) {
+    return m.questions.filter(function (q) { return state.qsub === "all" || q.sub === state.qsub; }).map(function (q) {
+      return '<tr id="' + q.id + '"><td><b>' + q.id + "</b></td><td>" + esc(subLabel(m, q.sub)) + "</td><td>" + esc(q.q) + '</td><td style="color:#5d5575">' + esc(q.why) + "</td></tr>";
+    }).join("");
+  }
+
+  /* ---------- detail panel ---------- */
+  function findStep(m, id) {
+    var f = m.flow, found = null;
+    function scan(arr, laneName) {
+      arr.forEach(function (it) { (Array.isArray(it) ? it : [it]).forEach(function (s) { if (s.id === id) found = { s: s, lane: laneName }; }); });
+    }
+    scan(f.start.steps, f.start.name);
+    f.lanes.forEach(function (l) { scan(l.steps, l.name); });
+    scan(f.engine.steps, f.engine.name);
+    return found;
+  }
+  function openPanel(id) {
+    var m = state.mod, r = findStep(m, id);
+    if (!r) return;
+    var qs = (r.s.q || []).map(function (qid) {
+      var q = m.questions.filter(function (x) { return x.id === qid; })[0];
+      return q ? '<div class="qi"><b>' + q.id + "</b> " + esc(q.q) + "</div>" : "";
+    }).join("");
+    $("#panel").innerHTML = '<button class="x" data-close="1" aria-label="Close">&times;</button><small>' + esc(r.lane) + "</small><h3>" + esc(r.s.t) + "</h3>" +
+      "<h5>What happens</h5><p>" + esc(r.s.d) + "</p><h5>Part of</h5><p>" + esc(subLabel(m, r.s.sub)) + "</p>" +
+      (qs ? "<h5>Questions for you</h5>" + qs : "");
+    $("#panel").classList.add("open");
+  }
+  function closePanel() { $("#panel").classList.remove("open"); }
+
+  /* ---------- play animation ---------- */
+  function stopPlay() {
+    if (state.timer) { clearInterval(state.timer); state.timer = null; }
+    var p = $("#paths");
+    if (p) { p.classList.remove("playing"); [].forEach.call(p.querySelectorAll(".vs.live"), function (e) { e.classList.remove("live"); }); }
+  }
+  function play() {
+    stopPlay();
+    if (state.lane === "all") { state.lane = "dealer"; render(); }
+    var p = $("#paths");
+    var seq = [];
+    ["start", state.lane].forEach(function (ln) {
+      var items = [].slice.call(p.querySelectorAll('.vs[data-lane="' + ln + '"]'));
+      items.forEach(function (e) { seq.push(e); });
+    });
+    var i = 0;
+    p.classList.add("playing");
+    function tick() {
+      seq.forEach(function (e) { e.classList.remove("live"); });
+      if (i >= seq.length) { stopPlay(); return; }
+      seq[i].classList.add("live");
+      seq[i].scrollIntoView({ block: "center", behavior: "smooth" });
+      i++;
+    }
+    tick();
+    state.timer = setInterval(tick, 1000);
+  }
+
+  /* ---------- routing ---------- */
+  function render() {
+    stopPlay(); closePanel();
+    var id = (location.hash || "").replace("#", "");
+    state.mod = modById(id) || null;
+    $("#app").innerHTML = state.mod ? moduleView(state.mod) : home();
+    onScroll();
+  }
+  function goto(id) {
+    if (location.hash.replace("#", "") === (id || "")) { render(); }
+    else { location.hash = id || ""; }
+    window.scrollTo(0, 0);
+  }
+  function scrollToId(id) {
+    var e = document.getElementById(id);
+    if (e) e.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-open],[data-home],[data-scroll],[data-step],[data-lane-pick],[data-play],[data-stop],[data-q],[data-close]");
+    if (!t) return;
+    var d = t.dataset;
+    if (d.open) goto(d.open);
+    else if (d.home) goto("");
+    else if (d.scroll) scrollToId(d.scroll);
+    else if (d.step) openPanel(d.step);
+    else if (d.lanePick) { state.lane = d.lanePick; var y = window.scrollY; render(); window.scrollTo(0, y); }
+    else if (d.play) play();
+    else if (d.stop) stopPlay();
+    else if (d.q) {
+      state.qsub = "all"; var sel = $("#qFilter"); if (sel) sel.value = "all";
+      $("#qBody").innerHTML = qRows(state.mod);
+      var row = document.getElementById(d.q);
+      if (row) { row.scrollIntoView({ behavior: "smooth", block: "center" }); row.classList.add("flash"); }
+    }
+    else if (d.close) closePanel();
+  });
+  document.addEventListener("change", function (e) {
+    if (e.target.id === "qFilter") { state.qsub = e.target.value; $("#qBody").innerHTML = qRows(state.mod); }
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePanel(); });
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("hashchange", function () { render(); window.scrollTo(0, 0); });
+  $("#brand").addEventListener("click", function () { goto(""); });
+
+  chrome();
+  render();
+})();
+
+</script>
+</body>
+</html>
