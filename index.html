@@ -98,6 +98,17 @@ a{color:inherit}
 .subnav{position:sticky;top:76px;z-index:20;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line)}
 .subnav .wrap{display:flex;gap:6px;overflow-x:auto}
 .subnav button{border:0;background:none;padding:15px 18px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+.scard{position:relative;text-align:left;background:#fff;border:1px solid var(--line);border-top:5px solid var(--p4);border-radius:16px;padding:20px 22px 18px;display:flex;flex-direction:column;gap:8px;transition:transform .2s,box-shadow .2s}
+.scard:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(91,33,182,.16)}
+.scard .num{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-weight:700;display:grid;place-items:center}
+.scard h3{font-size:17px}
+.scard p{color:var(--muted);font-size:14px}
+.inc{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:2px}
+.inc b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--p3);margin-right:4px}
+.inc i{font-style:normal;font-size:12px;background:#f5f0ff;border-radius:999px;padding:2px 10px;color:#4a2a9a}
+.scard .more{margin-top:auto;padding-top:6px;color:var(--p4);font-weight:600;font-size:14px}
+.subnav button.on{color:var(--p3);border-bottom-color:var(--p4)}
 .subnav button:hover{color:var(--p3);border-bottom-color:var(--p4)}
 
 .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
@@ -165,6 +176,10 @@ details.js .pu{font-size:14px;color:var(--muted)}
 .jb li{margin:5px 0;font-size:14.5px}
 .outcome{margin-top:16px;background:#f5f0ff;border-radius:12px;padding:11px 16px;font-size:14.5px}
 .outcome b{color:var(--p3)}
+.part{background:#faf8ff;border:1px solid var(--line);border-left:4px solid var(--p4);border-radius:10px;padding:10px 14px;margin:8px 0}
+.part b{display:block;font-size:14.5px;color:var(--p3)}
+.part p{margin:4px 0 0;font-size:14px;line-height:1.5}
+.part p i{font-style:normal;font-weight:600;color:var(--p3)}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:#f8f5ff}
@@ -221,12 +236,14 @@ footer{background:var(--p1);color:#cfc3ee;text-align:center;padding:30px 20px;fo
    TO ADD A MODULE: add an object to `modules` (copy the Lead one).
    - status "active"  : card is clickable and opens the module journey
    - status "coming"  : card is shown greyed out on the timeline
-   A module needs: id, no, icon, name, tagline, summary, leadTypes (optional),
-   flow, subModules, questions. Everything else is optional.
+   A module needs: id, no, icon, name, tagline, summary, leadTypes or types
+   (optional), flow, subModules, questions. Everything else is optional.
+   Optional `ui` object changes the headings of the module page.
+   A sub-module may have `parts`: the steps inside it (n, w, u, s, r).
    ===================================================================== */
 window.KB_DOC = {
   company: { name: "Creatique", rest: "Technologies", tagline: "YOU DREAM. WE DELIVER." },
-  project: { client: "Kan Biosys", version: "Draft 0.1", date: "25 Nov 2026" },
+  project: { client: "Kan Biosys", version: "Draft 0.2", date: "26 Nov 2026" },
 
   hero: {
     pill: "Digital Transformation Proposal",
@@ -282,6 +299,7 @@ window.KB_DOC = {
       subModules: [
         {
           id: "lc", no: 1, name: "Lead Creation",
+          short: "Capture every new lead from every channel into one record.",
           purpose: "Every new lead, whatever the channel, lands in one Lead record with its lead type: Dealer, Farmer or B2B / Export.",
           points: [
             "Channel (how it was captured) and Lead Source (where it came from) are two separate fields, so reports stay clear.",
@@ -302,6 +320,7 @@ window.KB_DOC = {
         },
         {
           id: "dq", no: 2, name: "Duplicate and Data Quality",
+          short: "Check each new lead against existing records to avoid duplicates.",
           purpose: "Each new lead is checked against existing Leads, Accounts, Dealers and Farmers before an owner is assigned.",
           points: [
             "Existing customers also send new inquiries, so matching against current records is needed.",
@@ -312,6 +331,7 @@ window.KB_DOC = {
         },
         {
           id: "la", no: 3, name: "Lead Assignment",
+          short: "Give every lead an owner: sales, call centre or business development.",
           purpose: "Decide who owns the lead: sales team, call centre or business development team.",
           points: [
             "Farmer leads go to the call centre first.",
@@ -323,6 +343,7 @@ window.KB_DOC = {
         },
         {
           id: "ft", no: 4, name: "Farmer-Dealer Tagging",
+          short: "Link farmer leads to nearby dealers using GPS.",
           purpose: "A farmer lead is linked to 3-4 dealers within 15-20 km using GPS, and the dealer is informed.",
           points: [
             "GPS coordinates and farm details are captured for tracking.",
@@ -334,6 +355,7 @@ window.KB_DOC = {
         },
         {
           id: "lq", no: 5, name: "Lead Qualification",
+          short: "Run the checks a lead must pass before it can convert.",
           purpose: "The checks a lead must pass before it can convert.",
           points: [
             "Dealer: classify type, verify GST, check licence on the government portal, run a credit check, sales accounts approve.",
@@ -345,6 +367,7 @@ window.KB_DOC = {
         },
         {
           id: "af", no: 6, name: "Activities and Follow-up",
+          short: "Record interactions, remind owners and re-engage cold leads.",
           purpose: "Record visits, calls, meetings, voice notes, samples and demos, remind owners, and re-engage cold leads.",
           points: [
             "Automatic email reminders for inactive leads, with escalation to senior managers.",
@@ -356,6 +379,7 @@ window.KB_DOC = {
         },
         {
           id: "cv", no: 7, name: "Lead Conversion",
+          short: "Turn the lead into the right record: dealer, farmer or B2B account.",
           purpose: "Convert the lead into the right record and close it.",
           points: [
             "Dealer: after the first successful transaction, the dealer is treated as a regular dealer (Dealer 360).",
@@ -368,6 +392,7 @@ window.KB_DOC = {
         },
         {
           id: "rp", no: 8, name: "Reporting and Dashboards",
+          short: "Show leads by source, conversion rate and event results.",
           purpose: "Show leads by source, conversion rate, inactive leads, and which events give results.",
           points: [
             "Weak events can be dropped and effort moved to those that bring leads.",
@@ -466,16 +491,505 @@ window.KB_DOC = {
       ]
     },
 
-    { id: "opp", no: "02", icon: "📈", status: "coming", name: "Opportunity",
+    /* =================================================================
+       MODULE 02 - DEALER 360 MANAGEMENT
+       ================================================================= */
+    {
+      id: "dealer360", no: "02", icon: "🏪", status: "active",
+      name: "Dealer 360 Management",
+      tagline: "One screen per dealer: onboarding, levels, visits, stock, money, orders and reports",
+      summary:
+        "Dealer 360 gives every dealer one complete record. A rep opens it before a visit and sees the dealer's status, level, credit, outstanding, " +
+        "stock, schemes and farmers. Everything done at the dealer is saved back to the same record, so nothing is typed twice and nothing is lost.",
+
+      ui: {
+        typesTab: "Who uses it",
+        typesTag: "Who uses it",
+        typesTitle: "Five groups, <em>one dealer screen</em>",
+        typesSub: "Each group sees and does different things on the same dealer record.",
+        typeLabels: ["Who", "What they do", "What they see", "Result"],
+        pathsTitle: "Three journeys, <em>side by side</em>",
+        pathsSub: "Every dealer starts with one record, then follows the journey it needs: onboarding, a visit, or a level review. Steps run top to bottom. Click any step for details.",
+        split: "the work decides the journey"
+      },
+
+      types: [
+        { id: "rep", name: "Field rep", color: "#2563eb", icon: "📱",
+          who: "MDO, TM and DM: the employees who visit dealers every day",
+          source: "Plan visits, check in, book orders, enter stock, note recovery, record market news, add farmers, check out",
+          owner: "Their own dealers: profile, credit, outstanding, stock, schemes, last visit",
+          end: "A complete visit recorded in minutes, with no calls to head office" },
+        { id: "mgr", name: "Managers", color: "#7c3aed", icon: "📊",
+          who: "Area and regional managers, Sales Head",
+          source: "Watch visits, approve level changes and dealer moves, handle escalations",
+          owner: "All dealers and prospects in their territory and reporting line",
+          end: "Clear control without chasing people by phone" },
+        { id: "ops", name: "Sales Coordination and Accounts", color: "#b45309", icon: "🗂️",
+          who: "Sales Coordination, Rubix, Licensing, Legal and Finance",
+          source: "Create dealers, check documents, approve onboarding, follow up disputes",
+          owner: "Onboarding cases, documents, credit and deposit details",
+          end: "One digital case instead of paper, email and Excel" },
+        { id: "adv", name: "Advisory and Marketing", color: "#15803d", icon: "🌾",
+          who: "Advisory team and Marketing",
+          source: "Use new farmer lists and dealer data for field days, testimonials and campaigns",
+          owner: "Farmers linked to dealers, dormant dealers, dealer groups for campaigns",
+          end: "Better targeted outreach" },
+        { id: "dlr", name: "The dealer", color: "#0e7490", icon: "🤝",
+          who: "Active dealers",
+          source: "Log in to place orders, check quotes and orders, raise cases, or order on WhatsApp",
+          owner: "Only their own records",
+          end: "Fewer calls to the sales team" }
+      ],
+
+      connects: [
+        { n: "SAP", d: "Dealer code, credit, outstanding, ageing, invoices, payments, returns and orders" },
+        { n: "Lead Management (Module 01)", d: "Hands over qualified dealer leads for onboarding" },
+        { n: "Farmer 360", d: "Farmers linked to the dealer" },
+        { n: "Order Management", d: "The full order and quote process" },
+        { n: "Marketing Cloud and WhatsApp", d: "Campaigns, reactivation and dealer ordering" },
+        { n: "Territory and beat plan", d: "Who visits which dealer, and when" }
+      ],
+
+      /* ---------- sub-modules, each with the steps inside it ---------- */
+      subModules: [
+        {
+          id: "pr", no: 1, name: "Dealer Profile and Records",
+          short: "One clean record for every dealer and prospect.",
+          purpose: "Keep one record per dealer, with its owner, territory, status and network around it.",
+          points: [
+            "Prospects (not yet in SAP) are kept apart from dealers (already in SAP).",
+            "For a dealer, the SAP customer code is the main ID and SAP owns the master details."
+          ],
+          parts: [
+            { n: "1.1 Dealer Profile", w: "The basic details of a dealer or prospect in one place.",
+              u: "Creates a prospect or dealer and fills shop name, owner, mobile, email, dealer type, area in acres, address, photos and GPS location.",
+              s: "Locks the master details that come from SAP, so the rep cannot change them." },
+            { n: "1.2 Dealer 360 Screen", w: "The one screen with everything about the dealer.",
+              u: "Opens a dealer and reads it, or taps a section for more.",
+              s: "Shows profile, status, level, credit, outstanding, sales, stock, last visit, schemes, farmers, orders, cases and history. Built to work well on a phone." },
+            { n: "1.3 Territory and Owner", w: "Links a dealer to a state, district, taluka and a rep.",
+              u: "Sales Coordination sets the territory and rep. A manager can move the dealer to another rep.",
+              s: "Gives managers visibility over their territory. Keeps every old visit, order and note when a dealer moves.",
+              r: "Today a move is approved by email and updated by hand." },
+            { n: "1.4 Sub-dealers", w: "Links sub-dealers and retailers under a dealer.",
+              u: "Adds a sub-dealer under a dealer and sees the whole network.",
+              s: "Shows the network on the dealer screen.",
+              r: "Today sub-dealers are noted by hand and not linked anywhere." },
+            { n: "1.5 Duplicate Check", w: "Stops the same dealer being created twice.",
+              u: "Gets a warning or a stop when saving a dealer that may already exist.",
+              s: "Checks the mobile number, the SAP code, and a shop with the same name near the same location.",
+              r: "Today only the mobile number is checked." },
+            { n: "1.6 Dealer Status", w: "Whether the dealer can trade now: Active, Inactive or Blocked.",
+              u: "Sees the status on the dealer and in lists.",
+              s: "Active means outstanding under 120 days with credit available. Blocked means over 120 days or a credit limit problem. Inactive means active but not buying." }
+          ],
+          outcome: "One trusted record per dealer, in the right territory, with the right owner.",
+          q: ["D-01", "D-02", "D-03", "D-04", "D-05"]
+        },
+        {
+          id: "ob", no: 2, name: "Dealer Onboarding",
+          short: "Turn a qualified prospect into an active dealer, digitally.",
+          purpose: "Move a prospect from Ready for Onboarding to an active dealer with a SAP code, without paper hand-offs. Today this takes about one week.",
+          points: [
+            "Lead Management hands over a prospect marked Ready for Onboarding.",
+            "Missing hard copies must not hold up the dealer code once all digital documents and approvals are done."
+          ],
+          parts: [
+            { n: "2.1 Dealer Stages", w: "Seven stages: Prospect, Contacted, Qualified or Interested, First Order, SAP Dealer Creation, Active Dealer, Repeat Dealer.",
+              u: "Moves the dealer forward as work is done.",
+              s: "Records the date of each stage, how long the dealer stays in it, and how many move on to the next stage." },
+            { n: "2.2 Onboarding Request", w: "The form that starts the onboarding of one new dealer.",
+              u: "The rep starts it from the prospect. Name, address, contact, GPS and category fill in by themselves.",
+              s: "Gives a unique Onboarding ID and keeps the whole case in one place. It cannot be submitted until mandatory items are filled." },
+            { n: "2.3 Documents", w: "The list of papers the dealer must give, with the status of each.",
+              u: "Uploads each paper under its name: licences, GST, PAN, Aadhaar, bank statement, dealership form and agreement, shop proof, deposit cheque and three comfort cheques.",
+              s: "Shows Pending, Uploaded, Verified, Correction Required or Approved for each paper. Decides which papers are mandatory by dealer type." },
+            { n: "2.4 Department Checks", w: "The approvals the case passes, one after another.",
+              u: "Sales Coordination checks completeness. Rubix checks the credit cheque. Licensing checks the licences. Legal checks the agreement and cheques. Finance checks the deposit and credit limit.",
+              s: "Hands the case to the next team, records who approved and when, and sends it back to the rep with a reason if something is wrong. An expired licence puts the case on hold." },
+            { n: "2.5 Security Deposit and Hard Copies", w: "Tracks the deposit and the paper set sent to head office.",
+              u: "The rep notes the courier and docket. Sales Coordination notes the receipt.",
+              s: "Shows Physical Documents Pending and reminds after the agreed days.",
+              r: "The deposit rule differs by state, so it must be configurable." },
+            { n: "2.6 SAP Dealer Code", w: "SAP creates the dealer and returns the customer code.",
+              u: "Nothing, if the data is complete. If creation fails, fixes the data and sends it again.",
+              s: "Sends the approved details, saves the code on the dealer, sets the dealer to Active and tells the rep." },
+            { n: "2.7 First and Repeat Orders", w: "Tracks the first orders and whether the dealer comes back.",
+              s: "The first three orders are on cash. Counts orders and shows first-time dealers and repeat dealers." }
+          ],
+          outcome: "A dealer with a SAP code, ready to order, with a full digital trail.",
+          q: ["D-06", "D-07", "D-08", "D-09", "D-10"]
+        },
+        {
+          id: "lv", no: 3, name: "Dealer Levels",
+          short: "Place every active dealer at a level and act on it.",
+          purpose: "Once a dealer is active, show how good the dealer is and what to do next, through a clear level system.",
+          points: [
+            "A dealer sits at one level at a time.",
+            "Kan Biosys writes the rules. We turn them into settings that can be changed without new development.",
+            "Fresh numbers from SAP do not change a level on their own, unless the rules say so."
+          ],
+          parts: [
+            { n: "3.1 Level Rules", w: "The list of levels and the rules that decide a dealer's level.",
+              u: "An admin keeps the rules in one place and can change a limit.",
+              s: "Uses purchase volume, payment speed, credit terms, sales returns and recovery. A return rate under 3% has been mentioned." },
+            { n: "3.2 Level Movement", w: "Moving a dealer between levels.",
+              u: "A manager approves, changes or cancels a suggested move, and can override it with a reason.",
+              s: "Checks the rules regularly and either moves the dealer or suggests a move." },
+            { n: "3.3 Level History", w: "The record of every level a dealer has had.",
+              s: "Shows past levels, the date, the reason, who approved, and the time spent at each level." },
+            { n: "3.4 Dormant Dealers", w: "Finds dealers who stopped buying and brings them back.",
+              u: "The rep or manager follows up with a revival action.",
+              s: "Lists dealers with no purchase for the agreed days, sends a reactivation message, and reports how many came back." },
+            { n: "3.5 Training and Certification", w: "The dealer's training and skills.",
+              u: "Records training, capability, product family, status, validity and expiry.",
+              s: "Guides product recommendations and dealer support. Does not stop quotes or orders unless you ask for that." },
+            { n: "3.6 Returns and Payment Behaviour", w: "The numbers that feed the level rules.",
+              s: "Shows returns, payment speed and credit use on the dealer, so a manager can see why a level changed.",
+              r: "These are facts about a dealer, not levels." }
+          ],
+          outcome: "Every active dealer is at a clear level, with a reason and a next action.",
+          q: ["D-11", "D-12", "D-13"]
+        },
+        {
+          id: "vs", no: 4, name: "Dealer Visit",
+          short: "Plan, check in, work, and check out, all on one screen.",
+          purpose: "A visit is one trip to one dealer. Everything done at the dealer is recorded in the same visit, in a set order.",
+          points: [
+            "Today only order and recovery are recorded, and only when entered by hand. After this, every visit leaves complete data.",
+            "Stock must be entered before the visit can be closed.",
+            "The rep is shown which items are still open for the visit."
+          ],
+          parts: [
+            { n: "4.1 Visit Plan", w: "The dealers a rep must visit, and when.",
+              u: "Opens today's visits. A manager sees the whole team's plan.",
+              s: "Takes the plan from the monthly beat plan. Reminds the rep and manager 48 hours before, then daily. Tracks visits as planned, completed, missed and cancelled.",
+              r: "A visit can also start from an order request, recovery due, a new scheme or product, low stock or a complaint." },
+            { n: "4.2 Before the Visit", w: "The dealer summary the rep reads before walking in.",
+              s: "Shows level, credit, outstanding by age, last stock, last visit, schemes, the cash discount to mention, farmers and open tasks. No call to head office needed." },
+            { n: "4.3 Check-in", w: "The rep says: I have reached the dealer.",
+              u: "Taps Check-In at the shop.",
+              s: "Saves the time and GPS location, checks the rep is near the dealer, creates the visit and opens Dealer 360." },
+            { n: "4.4 Visit Work", w: "One screen to do everything at the dealer.",
+              u: "In any order: book an order, enter stock, note recovery, record market news, add farmers, mark schemes, attach photos.",
+              s: "Shows what is done and what is still open, and reminds the rep of anything missing." },
+            { n: "4.5 Visit Result", w: "What the visit achieved.",
+              u: "Picks the outcome: Order Taken, Order Expected, Payment Follow-up, Collection Taken, Collection Date Promised, Product Pitch, Sample or Demo, Complaint, No Current Requirement, Dealer Inactive or Follow-up Required.",
+              s: "If more action is needed, Next Action, Who Will Do It and Follow-up Date are mandatory." },
+            { n: "4.6 Check-out", w: "The rep closes the visit.",
+              u: "Answers the closing questions and sets the next visit date.",
+              s: "Blocks check-out if stock is missing. Saves time, location and duration. Updates the dealer and the manager's view.",
+              r: "With no network, data is saved on the phone and sent later." },
+            { n: "4.7 Visit Rules", w: "Rules that keep visits fair and useful.",
+              s: "Monthly visit limit per dealer, with a manager alert. Dealer not available: mark Rescheduled with a reason. Unplanned visit or urgent order: log as off-beat and tell the manager. Dispute on the amount: note it and pass it to Sales Coordination. Partial stock check: enter what is possible, with a remark." },
+            { n: "4.8 Visit History", w: "Every past visit of a dealer.",
+              s: "Shows date, rep, purpose, outcome, order value, recovery, stock and market news, with trends in ordering, payment and stock.",
+              r: "Gives a clear trail of who did what at each dealer." }
+          ],
+          outcome: "Every visit is complete, on time and on record.",
+          q: ["D-14", "D-15", "D-16", "D-17", "D-18", "D-19"]
+        },
+        {
+          id: "st", no: 5, name: "Dealer Stock",
+          short: "Know how much Kan Biosys stock is on the dealer's shelf.",
+          purpose: "Record dealer stock so orders and recovery can be planned, and dealers do not drift into overdue and blocked.",
+          points: [
+            "This is the dealer's own shelf stock, not warehouse stock.",
+            "Today stock is checked by eye and not recorded."
+          ],
+          parts: [
+            { n: "5.1 Stock Entry", w: "The rep records the dealer's stock, product by product.",
+              u: "For each product, opening stock is already filled in. The rep adds new stock received and sales from the counter. Photo or receipt is optional.",
+              s: "Shows only the products the dealer carries. Closing stock = opening + new stock - sales. Zero stock must still be entered." },
+            { n: "5.2 Tally Statement", w: "The stock summary the dealer prints from Tally.",
+              u: "Every two weeks, uploads the dealer's statement for Kan Biosys products.",
+              s: "Adds it to the rep's task list and flags dealers whose statement is late." },
+            { n: "5.3 Stock History", w: "Past stock numbers of a dealer.",
+              s: "Shows stock at each entry, how fast it falls, and a warning when stock is low enough to reorder. Managers see dealers with no stock entry." }
+          ],
+          outcome: "Dealer stock is visible, so reorders and recovery are planned.",
+          q: ["D-20", "D-21"]
+        },
+        {
+          id: "mn", no: 6, name: "Money and Recovery",
+          short: "See credit and outstanding, and record collections.",
+          purpose: "Show the dealer's money position on the dealer screen, from SAP, and help the rep collect overdue payments.",
+          points: [
+            "SAP keeps the real figures. Salesforce shows them.",
+            "The rep no longer phones head office for outstanding, invoices or credit notes."
+          ],
+          parts: [
+            { n: "6.1 Credit and Outstanding", w: "The dealer's credit position at a glance.",
+              s: "Shows credit status, limit, available credit and total outstanding, with the time of the last refresh." },
+            { n: "6.2 Ageing", w: "How old each unpaid amount is.",
+              s: "Seven colour zones: Current, Cash discount window (15, 30, 45 days), Green 45 to 75, Orange 75 to 90, Red 90 to 105, Red critical 105 to 120, and Blocked above 120. The zones drive alerts and escalations." },
+            { n: "6.3 Invoices and Credit Notes", w: "Copies available in the app.",
+              u: "Opens an invoice or credit note and shows it to the dealer.",
+              s: "Shows invoice lines, payments, returns, and credit and debit notes." },
+            { n: "6.4 Recovery", w: "The rep notes money collected during a visit.",
+              u: "Marks Recovery Collected yes or no, enters amount, payment mode and invoices cleared, and gives a receipt.",
+              s: "Flags the collection for bank posting. Records a dispute if the dealer disagrees." },
+            { n: "6.5 Payment Behaviour", w: "How fast the dealer pays.",
+              s: "Shows average days to pay, payment history and unusual delays. Helps decide level and credit terms." }
+          ],
+          outcome: "Reps and managers see the dealer's money position without a call.",
+          q: ["D-22", "D-23", "D-24"]
+        },
+        {
+          id: "ds", no: 7, name: "Discounts and Schemes",
+          short: "Show discounts and schemes so the rep can explain them.",
+          purpose: "You offer three ways to pay: advance payment, cash discount and lifting calculation. This sub-module shows the discounts and records scheme talks.",
+          points: [
+            "Lifting and cash discounts are not shown publicly, so only the right roles see them.",
+            "This area needs a working session to fix the rules."
+          ],
+          parts: [
+            { n: "7.1 Lifting Discount", w: "A discount for the quantity the dealer picks up. It rises as the quantity grows.",
+              s: "Works out the discount when the order is booked and shows it on the order." },
+            { n: "7.2 Cash Discount", w: "A discount for paying early: in advance, or within 15, 30 or 45 days.",
+              s: "After the order is saved, shows each option and the amount saved, so the rep can tell the dealer. Also shows open cash discounts on earlier invoices." },
+            { n: "7.3 Credit Notes", w: "How a discount is paid back, for volume or prompt payment.",
+              s: "Valid only if the dealer pays within 90 days, and revoked after that. Shows issued, pending and revoked credit notes on the dealer." },
+            { n: "7.4 Schemes", w: "Offers and promotions for dealers.",
+              u: "Sees the schemes that apply to the dealer and marks each as discussed, accepted, with concerns, material given, or N/A with a reason.",
+              s: "Reports which scheme reached which dealer and how many accepted." },
+            { n: "7.5 Extra Discount Approval", w: "A special discount beyond the normal rules.",
+              u: "Asks for it with a reason.",
+              s: "Sends it to the approver and records the answer." }
+          ],
+          outcome: "Dealers hear the right discount at the right time, and every discount is on record.",
+          q: ["D-25", "D-26", "D-27"]
+        },
+        {
+          id: "od", no: 8, name: "Orders from the Dealer",
+          short: "Book an order from the dealer screen and follow it to delivery.",
+          purpose: "Covers the order steps done from the dealer screen. The full order and quote process is its own module.",
+          points: [
+            "Credit is checked before the order is sent.",
+            "The order number and status come back from SAP."
+          ],
+          parts: [
+            { n: "8.1 Order Booking", w: "The rep books an order from the dealer screen.",
+              u: "Picks products and quantities, picks the right variant where names repeat, and may attach the dealer's paper order.",
+              s: "Prices the order, works out the lifting discount, saves it with time and rep name, then shows the cash discount options. An email goes out after the order. An urgent order outside a visit is logged as off-beat and the manager is told." },
+            { n: "8.2 Credit Check", w: "A check before the order is sent.",
+              s: "Looks at the dealer's status and credit from SAP. If the dealer is blocked or the limit would be crossed, the screen says why. Only orders that pass go to SAP.",
+              r: "This needs a live link. With no network the rep can only draft the order." },
+            { n: "8.3 Order Tracking", w: "Following the order after it is sent.",
+              s: "Shows the SAP order number, the status (Draft to Closed), dispatch and delivery on the order and the dealer. Shows the error and a retry if sending fails. Reminds when a dealer with a volume agreement has not ordered." }
+          ],
+          outcome: "Orders are booked once, checked, and tracked to delivery.",
+          q: ["D-28", "D-29"]
+        },
+        {
+          id: "fm", no: 9, name: "Farmers and Market News",
+          short: "Capture the farmers behind each dealer and what the market is saying.",
+          purpose: "The dealer is the link to the farmer. Record the farmers who buy through a dealer, and the market news the rep hears.",
+          points: [
+            "The full Farmer 360 record belongs to the Farmer module.",
+            "Voice notes keep capture fast in the field."
+          ],
+          parts: [
+            { n: "9.1 Farmers of the Dealer", w: "The list of farmers connected to a dealer.",
+              u: "Sees existing farmers, adds a new one (name, mobile, crop, acreage) or links an existing one. Marks interest in a Field Day or a testimonial.",
+              s: "Carries the dealer's name on every farmer. One farmer can be linked to up to four dealers within about 15 to 20 km. Tells the Advisory team when a new list is added. Ties farmer demand to the dealer." },
+            { n: "9.2 Market News", w: "What the rep hears from the dealer about the market.",
+              u: "Records one voice note, and may add a photo: competitor prices, demand, threats, dealer feedback and seasonal trends.",
+              s: "Saves it on the dealer and the visit. Can turn it into text. High-risk news goes to the regional manager or Sales Head." },
+            { n: "9.3 Sell-out", w: "How much of what the dealer bought reached farmers.",
+              s: "Shows four separate numbers: farmer demand referred, inferred sell-out, dealer-reported sell-out and verified sell-out. A number is never called verified unless it is." }
+          ],
+          outcome: "The company knows who the dealer's farmers are and what the market is doing.",
+          q: ["D-30", "D-31"]
+        },
+        {
+          id: "al", no: 10, name: "Alerts and Escalations",
+          short: "Nudge people and push problems up, so nobody chases by phone.",
+          purpose: "An alert tells a person something needs attention. An escalation moves it up the chain when nothing is done.",
+          points: [
+            "Visit due: 48 hours before, then daily.",
+            "Missed visit: reporting manager next day. Two in a row: area or regional manager.",
+            "No recovery for three visits: regional manager. Outstanding over 90 days: Sales Head."
+          ],
+          parts: [
+            { n: "10.1 Alerts", w: "Messages when something needs attention.",
+              s: "To rep and manager: visit due, follow-up date near. To rep: stock not entered. To manager: visit closed without stock, too many visits, recovery above or below target, outstanding not handled after two visits. To Sales Head: daily or weekly visit summary. To Advisory: new farmer list. To Sales Coordination: new dealer ready for onboarding. To rep and manager: hard copies pending." },
+            { n: "10.2 Escalations", w: "Alerts that move up when nothing is done.",
+              s: "A missed visit, no stock entry, no recovery for three visits, outstanding over 90 days, too many visits, and high-risk competitor news each go to a defined senior person." }
+          ],
+          outcome: "Problems reach the right person quickly.",
+          q: ["D-32"]
+        },
+        {
+          id: "rd", no: 11, name: "Reports and Dashboards",
+          short: "Give managers a clear view of dealers without Excel.",
+          purpose: "Replace manual Excel exports with live reports and dashboards.",
+          points: [
+            "Four management dashboards are about dealers. Four more cover orders, sales, B2B, and samples, quotes and cases.",
+            "Dealer numbers include prospects by stage, first orders, new active dealers, repeat dealers and conversion."
+          ],
+          parts: [
+            { n: "11.1 Management Dashboards", w: "Dashboards for managers.",
+              s: "Dealer Operating Funnel and Level Movement. Dealer Activation, Repeatability and Cohort Performance. Territory and Sales Representative Performance. Visit Productivity and Commercial Outcomes." },
+            { n: "11.2 Dealer Reports", w: "Reports for daily work.",
+              s: "Visit compliance, visit frequency, orders against visits, stock entry, recovery and ageing, farmer additions, market news, scheme reach, sales and stock trend, top and bottom dealers, rep performance, and dormant dealers and revivals." }
+          ],
+          outcome: "Managers see dealers, visits and results at a glance.",
+          q: ["D-33"]
+        },
+        {
+          id: "pw", no: 12, name: "Dealer Portal and WhatsApp",
+          short: "Let dealers help themselves.",
+          purpose: "Dealers log in or use WhatsApp for orders, status and cases, so the sales team and back office get fewer calls.",
+          points: [
+            "A dealer sees only their own information.",
+            "Everything the dealer does is saved on the dealer record."
+          ],
+          parts: [
+            { n: "12.1 Dealer Portal", w: "A secure website where the dealer logs in.",
+              u: "Sees account, quotes, orders and status. Places an order. Raises and tracks a service case.",
+              s: "Shows each dealer only their own data and saves all activity on the dealer record." },
+            { n: "12.2 WhatsApp Ordering", w: "An assistant on WhatsApp that takes orders.",
+              u: "Sends a message, confirms identity, gives product and quantity, and confirms the order.",
+              s: "Creates the order, sends it for processing, replies with confirmation and status, keeps the chat on the dealer record, and passes anything unclear to a person." }
+          ],
+          outcome: "Dealers order and track on their own.",
+          q: ["D-34", "D-35"]
+        }
+      ],
+
+      /* ---------- journey paths ---------- */
+      flow: {
+        start: {
+          name: "Every dealer starts here", color: "#475569",
+          steps: [
+            { id: "ds1", t: "Prospect or dealer record", sub: "pr", d: "Every dealer has one record. A prospect (not yet in SAP) and a dealer (in SAP) are kept apart." },
+            { id: "ds2", t: "Duplicate check", sub: "pr", q: ["D-02"], d: "On save, the system checks for a dealer that already exists, using the fields you agree." },
+            { id: "ds3", t: "Territory and owner", sub: "pr", q: ["D-03"], d: "The dealer is linked to a state, district, taluka and a rep. Managers see it through their reporting line." }
+          ]
+        },
+        lanes: [
+          {
+            id: "onboard", name: "Onboarding journey", color: "#2563eb", icon: "🆕",
+            outcome: "An active dealer with a SAP code, ready to order",
+            steps: [
+              { id: "on1", t: "Onboarding request", sub: "ob", d: "The rep starts the request from the prospect. Name, address, contact, GPS and category fill in by themselves." },
+              { id: "on2", t: "Upload documents", sub: "ob", q: ["D-07"], d: "Each paper is uploaded under its name and shows Pending, Uploaded, Verified, Correction Required or Approved. The request cannot be submitted until the mandatory papers are in." },
+              { id: "on3", t: "Sales Coordination check", sub: "ob", d: "Checks completeness, signatures, stamps, name and address. Problems go back to the rep as Correction Required." },
+              { id: "on4", t: "Credit cheque check", sub: "ob", q: ["D-08"], d: "Rubix verifies the credit cheque and records Approved, Correction Required or Rejected." },
+              { id: "on5", t: "Licence check", sub: "ob", d: "Licensing checks licence number, dates, name, address and product category. An expired or mismatched licence puts the case on hold." },
+              { id: "on6", t: "Legal check", sub: "ob", d: "Legal checks the agreement, signatures, the three comfort cheques and any company or partnership papers." },
+              { id: "on7", t: "Finance approval", sub: "ob", d: "Finance checks the deposit and the credit limit and gives the final money approval." },
+              [
+                { id: "on8", t: "SAP dealer code", sub: "ob", q: ["D-09"], d: "The approved details go to SAP. The SAP customer code comes back and is saved on the dealer." },
+                { id: "on9", t: "Hard copies tracked", sub: "ob", d: "Courier, docket and receipt of the paper set are tracked. Pending papers do not stop the code." }
+              ],
+              { id: "on10", t: "Dealer active", sub: "ob", d: "The status becomes Dealer Active and the rep is told the dealer is ready for orders. The case closes fully when the hard copies are received." },
+              { id: "on11", t: "First orders, then repeat", sub: "ob", q: ["D-06", "D-10"], d: "The first three orders are on cash. A dealer who comes back to order is marked as a repeat dealer." }
+            ]
+          },
+          {
+            id: "visit", name: "Visit journey", color: "#15803d", icon: "📍",
+            outcome: "A completed visit with everything recorded on the dealer",
+            steps: [
+              { id: "v1", t: "Open today's plan", sub: "vs", q: ["D-14"], d: "The rep sees the dealers planned for the day from the monthly beat plan." },
+              { id: "v2", t: "Read Dealer 360", sub: "vs", d: "Level, credit, outstanding by age, last stock, last visit, schemes, the cash discount to mention, farmers and open tasks. No call to head office." },
+              { id: "v3", t: "Check in", sub: "vs", q: ["D-15"], d: "The rep taps Check-In at the shop. Time and GPS location are saved, and the system checks the rep is near the dealer." },
+              { id: "v4", t: "Pick the purpose", sub: "vs", d: "Order, Recovery, Stock Check, Scheme, Launch or Complaint. It is filled in from the plan when the visit is planned." },
+              [
+                { id: "vw1", t: "Book an order", sub: "od", q: ["D-28"], d: "Products, quantity, price and lifting discount. Cash discount options show after saving. Credit is checked before the order is sent." },
+                { id: "vw2", t: "Enter stock", sub: "st", q: ["D-16"], d: "Opening stock is filled in. The rep adds new stock and sales, and closing stock is worked out. Mandatory." },
+                { id: "vw3", t: "Note recovery", sub: "mn", d: "See outstanding and ageing. Mark collected yes or no, the amount and mode. Give a receipt." },
+                { id: "vw4", t: "Market news", sub: "fm", d: "One voice note on competitor prices, demand and dealer feedback." },
+                { id: "vw5", t: "Farmers", sub: "fm", d: "Add or link farmers. Mark interest in a Field Day or a testimonial." },
+                { id: "vw6", t: "Schemes", sub: "ds", d: "Mark each scheme as discussed, accepted, or N/A, and whether material was given." }
+              ],
+              { id: "v5", t: "Choose the outcome", sub: "vs", q: ["D-17"], d: "Order Taken, Order Expected, Payment Follow-up, Collection Taken, Collection Date Promised, Product Pitch, Sample or Demo, Complaint, No Current Requirement, Dealer Inactive or Follow-up Required." },
+              { id: "v6", t: "Next action and date", sub: "vs", d: "If more action is needed, Next Action, Who Will Do It and Follow-up Date are mandatory. The next visit date is suggested from the plan." },
+              { id: "v7", t: "Closing check", sub: "vs", q: ["D-16"], d: "The app asks: stock entered, order booked, recovery collected, market news, farmers. Check-out is blocked if stock is missing." },
+              { id: "v8", t: "Check out", sub: "vs", q: ["D-19"], d: "Time, location and duration are saved and the visit is marked Completed. If the dealer was not available, the visit is marked Rescheduled with a reason." },
+              { id: "v9", t: "Dealer 360 updated", sub: "vs", q: ["D-18"], d: "Data reaches the server. The dealer screen, the manager's view and the reports update, and alerts fire where needed." }
+            ]
+          },
+          {
+            id: "level", name: "Level journey", color: "#7c3aed", icon: "📊",
+            outcome: "Every active dealer at the right level, with a clear next action",
+            steps: [
+              { id: "lv1", t: "Numbers refresh", sub: "mn", q: ["D-22"], d: "Purchases, payments, returns and ageing come from SAP on a regular basis." },
+              { id: "lv2", t: "Rules are checked", sub: "lv", q: ["D-11"], d: "The level rules written by Kan Biosys are applied to each active dealer." },
+              { id: "lv3", t: "Level suggested", sub: "lv", q: ["D-12"], d: "The system either moves the dealer or suggests a move, depending on the rule." },
+              { id: "lv4", t: "Manager decides", sub: "lv", d: "A manager approves, changes or cancels the move, and can override it with a reason." },
+              { id: "lv5", t: "Level history saved", sub: "lv", d: "Level, date, reason, approver and time at the level are recorded." },
+              [
+                { id: "lv6", t: "Next actions set", sub: "lv", d: "The level can drive next actions, service intensity and notifications." },
+                { id: "lv7", t: "Status updated", sub: "pr", q: ["D-05"], d: "Active, Inactive or Blocked is refreshed from SAP and the rules." }
+              ],
+              { id: "lv8", t: "Dormant dealer revival", sub: "lv", q: ["D-13"], d: "A dealer with no purchase for the agreed days is listed and gets a reactivation message or a follow-up." },
+              { id: "lv9", t: "Reports update", sub: "rd", d: "Level movement and dealer distribution show on the management dashboard." }
+            ]
+          }
+        ],
+        engine: {
+          name: "Alerts and escalations: run alongside every journey", color: "#b45309",
+          steps: [
+            { id: "al1", t: "Something is due or missed", sub: "al", d: "A visit is due, a follow-up date is near, stock was not entered or outstanding was not handled." },
+            { id: "al2", t: "Alert to rep and manager", sub: "al", q: ["D-32"], d: "The person responsible gets a reminder through the agreed channel." },
+            { id: "al3", t: "Escalate up the chain", sub: "al", d: "If nothing is done, the alert moves up: reporting manager, area or regional manager, Sales Head." },
+            { id: "al4", t: "Manager acts, and it is recorded", sub: "al", d: "The manager reviews and acts, and the action is saved on the dealer." }
+          ]
+        }
+      },
+
+      /* ---------- questions ---------- */
+      questions: [
+        { id: "D-01", sub: "pr", q: "Which dealer fields should the rep see, and which may the rep change?", why: "Sets the dealer screen and who can edit what." },
+        { id: "D-02", sub: "pr", q: "What decides a duplicate: mobile number, SAP code, GST, PAN, address, or a shop with the same name near the same location? Which stop the save and which only warn?", why: "A wrong rule blocks real dealers or lets duplicates in." },
+        { id: "D-03", sub: "pr", q: "Who approves moving a dealer to another rep, and what happens to the old rep's open tasks and planned visits?", why: "A move is approved by email today and needs a clear owner." },
+        { id: "D-04", sub: "pr", q: "Who keeps sub-dealers up to date, and does a sub-dealer also get a dealer code in SAP?", why: "Sub-dealers are not linked anywhere today." },
+        { id: "D-05", sub: "pr", q: "After how many days without a purchase is an active dealer Inactive?", why: "Inactive dealers are found by hand in Excel today." },
+        { id: "D-06", sub: "ob", q: "Can a dealer place a First Order before the SAP code exists, given that an order needs a SAP code?", why: "The dealer stages and the SAP process do not match yet." },
+        { id: "D-07", sub: "ob", q: "Where should PAN, Aadhaar and bank papers be stored, and who may see them?", why: "These are sensitive personal documents." },
+        { id: "D-08", sub: "ob", q: "How many days does each checking team have, and can the credit and licence checks run at the same time?", why: "This can cut the one-week onboarding time." },
+        { id: "D-09", sub: "ob", q: "Must the dealer also be activated in your current field app, or does Salesforce replace it?", why: "Decides whether activation is one step or two." },
+        { id: "D-10", sub: "ob", q: "What is a repeat dealer: how many orders, in how many days?", why: "Needed for the repeat dealer reports." },
+        { id: "D-11", sub: "lv", q: "What are the levels (names and number) and the rule for moving between them? Who will write them, and by when?", why: "The level system cannot be built without the rules." },
+        { id: "D-12", sub: "lv", q: "Which level moves are automatic and which need a manager's approval?", why: "Decides where the manager is in the loop." },
+        { id: "D-13", sub: "lv", q: "After how many days without a purchase is a dealer dormant, and what may a revival offer include?", why: "Needed to list dormant dealers and plan revival." },
+        { id: "D-14", sub: "vs", q: "Can a rep start a visit that is not on the plan?", why: "Decides whether unplanned visits are allowed and how they are marked." },
+        { id: "D-15", sub: "vs", q: "How far from the shop may a rep check in? If outside, do we block, or allow with a reason?", why: "Sets the location check at check-in." },
+        { id: "D-16", sub: "vs", q: "Is stock entered before check-in or before check-out?", why: "The two points give different screens and rules." },
+        { id: "D-17", sub: "vs", q: "Can one visit have several outcomes, such as an order and a collection together?", why: "Decides whether the outcome is one choice or many." },
+        { id: "D-18", sub: "vs", q: "How many visits per dealer per month are allowed, and does it depend on the dealer's level? Do we block or only warn?", why: "Needed for the visit limit rule." },
+        { id: "D-19", sub: "vs", q: "Which parts of a visit must work with no network?", why: "Offline support on mobile is limited, so we must choose." },
+        { id: "D-20", sub: "st", q: "At what stock level should a reorder warning show: per dealer, per product or per dealer level?", why: "Needed for the low-stock warning." },
+        { id: "D-21", sub: "st", q: "In which formats do dealers give the stock statement (PDF, Excel, scan), and who turns it into numbers?", why: "Decides how the Tally statement is handled." },
+        { id: "D-22", sub: "mn", q: "How fresh must credit and outstanding be: live, hourly or daily?", why: "The rep may quote these numbers to the dealer." },
+        { id: "D-23", sub: "mn", q: "How does the rep's recovery entry become a payment in SAP, and who posts it?", why: "Recovery is recorded in the field but SAP holds the payment." },
+        { id: "D-24", sub: "mn", q: "How many months of invoices should the app show?", why: "Storing all invoices for thousands of dealers is heavy." },
+        { id: "D-25", sub: "ds", q: "What are the lifting discount steps, and does Salesforce work them out or only show what SAP gives?", why: "Decides where the discount rules live." },
+        { id: "D-26", sub: "ds", q: "Which roles may see lifting and cash discounts, and may the rep show them to the dealer?", why: "These discounts are not shown publicly." },
+        { id: "D-27", sub: "ds", q: "Who approves an extra discount, and up to what limit for each approver?", why: "Needed for the approval steps." },
+        { id: "D-28", sub: "od", q: "For a blocked dealer, is the order stopped at saving, or can it be saved but not billed?", why: "Two different rules have been described." },
+        { id: "D-29", sub: "od", q: "Must the rep attach the dealer's paper order for every order?", why: "Decides whether the paper order is a required step." },
+        { id: "D-30", sub: "fm", q: "What distance links a farmer to a dealer (15 or 20 km), and what happens when no dealer is in range?", why: "The rule must be exact to automate it." },
+        { id: "D-31", sub: "fm", q: "In which languages are voice notes recorded, who listens to them, and is text conversion needed?", why: "Decides the voice note set-up and cost." },
+        { id: "D-32", sub: "al", q: "What are the number of days and the chain for each escalation, and which channel should be used (app, email, WhatsApp)? What should Marketing be alerted about?", why: "Needed to build the alert and escalation rules." },
+        { id: "D-33", sub: "rd", q: "Who sees which report, and do you want Tableau dashboards on top?", why: "Depends on roles and your Tableau licence." },
+        { id: "D-34", sub: "pw", q: "How many dealers will log in to the portal, and should they also see credit, ledger and credit notes?", why: "Licence cost depends on the number of dealer users." },
+        { id: "D-35", sub: "pw", q: "Which WhatsApp provider and which languages should the dealer assistant use?", why: "Features and cost depend on the choice." }
+      ]
+    },
+
+    { id: "opp", no: "03", icon: "📈", status: "coming", name: "Opportunity",
       tagline: "Coming next", summary: "" },
-    { id: "exp", no: "03", icon: "🚢", status: "coming", name: "Export",
+    { id: "exp", no: "04", icon: "🚢", status: "coming", name: "Export",
       tagline: "Coming after Opportunity", summary: "" }
   ]
 };
 
 </script>
 <script>
-/* Renders window.KB_DOC (see data.js). No content lives in this file. */
+/* Renders window.KB_DOC (see data above). No content lives in this file. */
 (function () {
   "use strict";
   var D = window.KB_DOC;
@@ -485,7 +999,26 @@ window.KB_DOC = {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   };
-  var state = { lane: "all", qsub: "all", timer: null, mod: null };
+  var state = { lane: "all", qsub: "all", tab: "subs", openSub: null, timer: null, mod: null };
+
+  /* default headings for the module page; a module may override them with `ui` */
+  var UI_DEFAULT = {
+    typesTab: "Lead types",
+    typesTag: "Who we serve",
+    typesTitle: "Three kinds of lead, <em>one module</em>",
+    typesSub: "Each type has its own source, owner and finish line.",
+    typeLabels: ["Who", "Where it comes from", "Owner", "Finish line"],
+    pathsTitle: "Three paths, <em>side by side</em>",
+    pathsSub: "Every lead starts the same way, then follows its own path from top to bottom. Click any step for details.",
+    split: "the lead type decides the path"
+  };
+  function uiOf(m) {
+    var o = {}, k;
+    for (k in UI_DEFAULT) { o[k] = UI_DEFAULT[k]; }
+    if (m.ui) { for (k in m.ui) { o[k] = m.ui[k]; } }
+    return o;
+  }
+  function typesOf(m) { return m.types || m.leadTypes || null; }
 
   function modById(id) { return D.modules.filter(function (m) { return m.id === id && m.status === "active"; })[0]; }
 
@@ -556,30 +1089,44 @@ window.KB_DOC = {
       return '<div class="vs" data-lane="' + laneId + '" data-seq="' + i + '" style="--c:' + color + '">' + stepBtn(it, color, n) + "</div>";
     }).join("");
   }
+  function partHtml(p) {
+    return '<div class="part"><b>' + esc(p.n) + "</b><p>" + esc(p.w) + "</p>" +
+      (p.u ? "<p><i>The user:</i> " + esc(p.u) + "</p>" : "") +
+      (p.s ? "<p><i>The system:</i> " + esc(p.s) + "</p>" : "") +
+      (p.r ? "<p><i>Note:</i> " + esc(p.r) + "</p>" : "") + "</div>";
+  }
   function moduleView(m) {
-    var f = m.flow;
+    var f = m.flow, U = uiOf(m), T = typesOf(m), S = { subs: subsSection(m) };
+    var tabs = [["subs", "Sub-modules"]];
+    if (T) tabs.push(["types", U.typesTab]);
+    tabs = tabs.concat([["paths", "Journey paths"], ["steps", "Journey steps"], ["q", "Questions for you (" + m.questions.length + ")"]]);
+    if (!S[state.tab] && state.tab !== "types" && state.tab !== "paths" && state.tab !== "steps" && state.tab !== "q") state.tab = "subs";
+
     var out = '<section class="mhero"><div class="wrap"><button class="back" data-home="1">&#8592; All modules</button>' +
       '<span class="eyebrow"><i></i>Module ' + esc(m.no) + " &middot; " + m.subModules.length + " journey steps</span>" +
       "<h1>" + esc(m.icon) + " <span>" + esc(m.name) + "</span></h1><p>" + esc(m.summary) + "</p></div></section>";
 
     out += '<nav class="subnav"><div class="wrap">' +
-      '<button data-scroll="s-types">Lead types</button><button data-scroll="s-paths">Journey paths</button>' +
-      '<button data-scroll="s-steps">Journey steps</button><button data-scroll="s-q">Questions for you</button></div></nav>';
+      tabs.map(function (t) {
+        return '<button data-tab="' + t[0] + '" class="' + (state.tab === t[0] ? "on" : "") + '" role="tab">' + esc(t[1]) + "</button>";
+      }).join("") + "</div></nav>";
 
-    /* lead types */
-    out += '<section class="sec soft" id="s-types"><div class="wrap"><div class="head"><span class="tagpill">Who we serve</span>' +
-      "<h2>Three kinds of lead, <em>one module</em></h2><p>Each type has its own source, owner and finish line.</p></div><div class=\"types\">" +
-      m.leadTypes.map(function (t) {
-        return '<div class="type" style="--c:' + t.color + '"><h3>' + t.icon + " " + esc(t.name) + "</h3><dl>" +
-          "<dt>Who</dt><dd>" + esc(t.who) + "</dd><dt>Where it comes from</dt><dd>" + esc(t.source) + "</dd>" +
-          "<dt>Owner</dt><dd>" + esc(t.owner) + "</dd><dt>Finish line</dt><dd>" + esc(t.end) + "</dd></dl></div>";
-      }).join("") + '</div><div class="conn">' + m.connects.map(function (c) {
-        return "<div><b>" + esc(c.n) + "</b><span>" + esc(c.d) + "</span></div>";
-      }).join("") + "</div></div></section>";
+    /* types / who uses it */
+    if (T) {
+      S.types = '<section class="sec soft" id="s-types"><div class="wrap"><div class="head"><span class="tagpill">' + esc(U.typesTag) + "</span>" +
+        "<h2>" + U.typesTitle + "</h2><p>" + esc(U.typesSub) + "</p></div><div class=\"types\">" +
+        T.map(function (t) {
+          return '<div class="type" style="--c:' + t.color + '"><h3>' + t.icon + " " + esc(t.name) + "</h3><dl>" +
+            "<dt>" + esc(U.typeLabels[0]) + "</dt><dd>" + esc(t.who) + "</dd><dt>" + esc(U.typeLabels[1]) + "</dt><dd>" + esc(t.source) + "</dd>" +
+            "<dt>" + esc(U.typeLabels[2]) + "</dt><dd>" + esc(t.owner) + "</dd><dt>" + esc(U.typeLabels[3]) + "</dt><dd>" + esc(t.end) + "</dd></dl></div>";
+        }).join("") + '</div><div class="conn">' + m.connects.map(function (c) {
+          return "<div><b>" + esc(c.n) + "</b><span>" + esc(c.d) + "</span></div>";
+        }).join("") + "</div></div></section>";
+    }
 
     /* paths */
-    out += '<section class="sec" id="s-paths"><div class="wrap"><div class="head"><span class="tagpill">Journey paths</span>' +
-      "<h2>Three paths, <em>side by side</em></h2><p>Every lead starts the same way, then follows its own path from top to bottom. Click any step for details.</p></div>" +
+    S.paths = '<section class="sec" id="s-paths"><div class="wrap"><div class="head"><span class="tagpill">Journey paths</span>' +
+      "<h2>" + U.pathsTitle + "</h2><p>" + esc(U.pathsSub) + "</p></div>" +
       '<div class="ctrl"><div class="seg">' +
       ['all'].concat(f.lanes.map(function (l) { return l.id; })).map(function (id) {
         var nm = id === "all" ? "All paths" : f.lanes.filter(function (l) { return l.id === id; })[0].name;
@@ -588,7 +1135,7 @@ window.KB_DOC = {
       '<button class="pbtn ghost" data-stop="1">Stop</button><span class="hint">? marks a step with a question for you</span></div>' +
       '<div class="paths" id="paths">' +
       '<div class="startcol">' + stack(f.start.steps, f.start.color, "start") + "</div>" +
-      '<div class="split">the lead type decides the path</div><div class="cols">' +
+      '<div class="split">' + esc(U.split) + '</div><div class="cols">' +
       f.lanes.map(function (l) {
         return '<div class="col' + (state.lane !== "all" && state.lane !== l.id ? " dim" : "") + '" style="--c:' + l.color + '"><h3>' + l.icon + " " + esc(l.name) + "</h3>" +
           stack(l.steps, l.color, l.id) + '<div class="out"><b>Outcome:</b> ' + esc(l.outcome) + "</div></div>";
@@ -598,12 +1145,15 @@ window.KB_DOC = {
       }).join("") + "</div></div></div></div></section>";
 
     /* journey steps */
-    out += '<section class="sec soft" id="s-steps"><div class="wrap"><div class="head"><span class="tagpill">Journey steps</span>' +
+    S.steps = '<section class="sec soft" id="s-steps"><div class="wrap"><div class="head"><span class="tagpill">Journey steps</span>' +
       "<h2>What each step <em>does</em></h2><p>The sub-modules of " + esc(m.name) + ", with the questions we need answered.</p></div><div class=\"jl\">" +
       m.subModules.map(function (s) {
-        var h = '<details class="js"' + (s.no === 1 ? " open" : "") + '><summary><span class="num">' + s.no + "</span><div><h3>" + esc(s.name) +
+        var h = '<details class="js" id="js-' + s.id + '"' + ((state.openSub ? s.id === state.openSub : s.no === 1) ? " open" : "") + '><summary><span class="num">' + s.no + "</span><div><h3>" + esc(s.name) +
           '</h3><div class="pu">' + esc(s.purpose) + '</div></div></summary><div class="jb"><h4>How it works</h4><ul>' +
           s.points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>";
+        if (s.parts) {
+          h += "<h4>Steps inside this sub-module</h4>" + s.parts.map(partHtml).join("");
+        }
         if (s.channels) {
           h += '<h4>Channels</h4><div class="tw"><table><thead><tr><th>Channel</th><th>Lead type</th><th>How it works</th></tr></thead><tbody>' +
             s.channels.map(function (c) { return "<tr><td><b>" + esc(c.n) + "</b></td><td>" + esc(c.type) + "</td><td>" + esc(c.note) + "</td></tr>"; }).join("") + "</tbody></table></div>";
@@ -614,12 +1164,31 @@ window.KB_DOC = {
       }).join("") + "</div></div></section>";
 
     /* questions */
-    out += '<section class="sec" id="s-q"><div class="wrap"><div class="head"><span class="tagpill">Questions for you</span>' +
+    S.q = '<section class="sec" id="s-q"><div class="wrap"><div class="head"><span class="tagpill">Questions for you</span>' +
       "<h2>Help us <em>finalise</em> this module</h2><p>" + m.questions.length + " questions. Your answers decide how each step is built.</p></div>" +
       '<div class="ctrl"><select class="qsel" id="qFilter"><option value="all">All journey steps</option>' +
       m.subModules.map(function (s) { return '<option value="' + s.id + '"' + (state.qsub === s.id ? " selected" : "") + ">Step " + s.no + ": " + esc(s.name) + "</option>"; }).join("") + "</select></div>" +
       '<div class="tw"><table><thead><tr><th>ID</th><th>Journey step</th><th>Question</th><th>Why we ask</th></tr></thead><tbody id="qBody">' + qRows(m) + "</tbody></table></div></div></section>";
+    return out + S[state.tab];
+  }
+  function parts(m, s) {
+    if (s.parts) return s.parts.map(function (p) { return p.n.replace(/^[0-9.]+\s*/, ""); });
+    if (s.channels) return s.channels.map(function (c) { return c.n; });
+    var f = m.flow, out = [];
+    function scan(arr) { arr.forEach(function (it) { (Array.isArray(it) ? it : [it]).forEach(function (x) { if (x.sub === s.id && out.indexOf(x.t) < 0) out.push(x.t); }); }); }
+    scan(f.start.steps); f.lanes.forEach(function (l) { scan(l.steps); }); scan(f.engine.steps);
     return out;
+  }
+  function subsSection(m) {
+    return '<section class="sec soft" id="s-subs"><div class="wrap"><div class="head"><span class="tagpill">Sub-modules</span>' +
+      "<h2>" + esc(m.name) + " <em>at a glance</em></h2><p>The " + m.subModules.length + " sub-modules of this module. Click one for full details.</p></div><div class=\"sgrid\">" +
+      m.subModules.map(function (s) {
+        var ps = parts(m, s), shown = ps.slice(0, 6);
+        return '<button class="scard" data-sub="' + s.id + '"><span class="num">' + s.no + "</span><h3>" + esc(s.name) + "</h3><p>" + esc(s.short) + "</p>" +
+          (ps.length ? '<div class="inc"><b>Includes</b>' + shown.map(function (x) { return "<i>" + esc(x) + "</i>"; }).join("") +
+            (ps.length > shown.length ? "<i>+" + (ps.length - shown.length) + " more</i>" : "") + "</div>" : "") +
+          '<span class="more">Full details &#8594;</span></button>';
+      }).join("") + "</div></div></section>";
   }
   function qRows(m) {
     return m.questions.filter(function (q) { return state.qsub === "all" || q.sub === state.qsub; }).map(function (q) {
@@ -660,7 +1229,7 @@ window.KB_DOC = {
   }
   function play() {
     stopPlay();
-    if (state.lane === "all") { state.lane = "dealer"; render(); }
+    if (state.lane === "all") { state.lane = state.mod.flow.lanes[0].id; render(); }
     var p = $("#paths");
     var seq = [];
     ["start", state.lane].forEach(function (ln) {
@@ -684,7 +1253,9 @@ window.KB_DOC = {
   function render() {
     stopPlay(); closePanel();
     var id = (location.hash || "").replace("#", "");
+    var prev = state.mod && state.mod.id;
     state.mod = modById(id) || null;
+    if (!state.mod || state.mod.id !== prev) { state.tab = "subs"; state.openSub = null; state.lane = "all"; state.qsub = "all"; }
     $("#app").innerHTML = state.mod ? moduleView(state.mod) : home();
     onScroll();
   }
@@ -699,19 +1270,20 @@ window.KB_DOC = {
   }
 
   document.addEventListener("click", function (e) {
-    var t = e.target.closest("[data-open],[data-home],[data-scroll],[data-step],[data-lane-pick],[data-play],[data-stop],[data-q],[data-close]");
+    var t = e.target.closest("[data-open],[data-home],[data-scroll],[data-tab],[data-sub],[data-step],[data-lane-pick],[data-play],[data-stop],[data-q],[data-close]");
     if (!t) return;
     var d = t.dataset;
     if (d.open) goto(d.open);
     else if (d.home) goto("");
     else if (d.scroll) scrollToId(d.scroll);
+    else if (d.sub) { state.openSub = d.sub; state.tab = "steps"; render(); var jd = document.getElementById("js-" + d.sub); if (jd) jd.scrollIntoView({ behavior: "smooth", block: "start" }); }
+    else if (d.tab) { state.tab = d.tab; state.openSub = null; render(); var mh = $(".mhero"); window.scrollTo(0, Math.max(0, mh.offsetHeight - 76)); }
     else if (d.step) openPanel(d.step);
     else if (d.lanePick) { state.lane = d.lanePick; var y = window.scrollY; render(); window.scrollTo(0, y); }
     else if (d.play) play();
     else if (d.stop) stopPlay();
     else if (d.q) {
-      state.qsub = "all"; var sel = $("#qFilter"); if (sel) sel.value = "all";
-      $("#qBody").innerHTML = qRows(state.mod);
+      state.qsub = "all"; state.tab = "q"; render();
       var row = document.getElementById(d.q);
       if (row) { row.scrollIntoView({ behavior: "smooth", block: "center" }); row.classList.add("flash"); }
     }
