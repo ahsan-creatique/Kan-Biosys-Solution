@@ -243,7 +243,7 @@ footer{background:var(--p1);color:#cfc3ee;text-align:center;padding:30px 20px;fo
    ===================================================================== */
 window.KB_DOC = {
   company: { name: "Creatique", rest: "Technologies", tagline: "YOU DREAM. WE DELIVER." },
-  project: { client: "Kan Biosys", version: "Draft 0.2", date: "26 Nov 2026" },
+  project: { client: "Kan Biosys", version: "Draft 0.3", date: "27 Nov 2026" },
 
   hero: {
     pill: "Digital Transformation Proposal",
@@ -980,9 +980,430 @@ window.KB_DOC = {
       ]
     },
 
-    { id: "opp", no: "03", icon: "📈", status: "coming", name: "Opportunity",
+    /* =================================================================
+       MODULE 03: FARMER 360 MANAGEMENT
+       Sources: SOW, Session 1 questionnaire, Farmer Visit SOP, Existing Dealer SOP,
+       New Lead Dealer Visit SOP, Journey Cycle Plan SOP, Sessions 1-5 and 7.
+       "(to confirm)" = found only in an AI-generated session summary.
+       ================================================================= */
+    {
+      id: "farmer360", no: "03", icon: "🌾", status: "active",
+      name: "Farmer 360 Management",
+      tagline: "One record per farmer: who, what they grow, which dealer, and whether they use our products",
+      summary:
+        "Kan Biosys sells through dealers, so it often does not know the farmers who use its products. Farmer 360 gives every farmer one record, linked to nearby dealers. " +
+        "A rep adds a farmer in seconds, even with no network. The system then tags the farmer as a User or Non-User and sends Non-Users to the Advisory team to call. " +
+        "Field Days, samples, demos and testimonials all save back to the same farmer record.",
+
+      ui: {
+        typesTab: "Who uses it",
+        typesTag: "Who uses it",
+        typesTitle: "Six groups, <em>one farmer record</em>",
+        typesSub: "Each group does different things on the same farmer. Groups marked (to confirm) come only from session notes.",
+        typeLabels: ["Who", "What they do", "What they see", "Result"],
+        pathsTitle: "Four journeys, <em>side by side</em>",
+        pathsSub: "A farmer enters in one of two ways: the farmer contacts us, or a rep finds the farmer. After a visit the farmer follows the User or Non-User path. Steps run top to bottom. Click any step for details.",
+        split: "how the farmer enters decides the journey"
+      },
+
+      types: [
+        { id: "rep", name: "Field rep", color: "#2563eb", icon: "📱",
+          who: "Intern, MDO and TM: the employees who meet farmers",
+          source: "Add and update farmers, register visits, get the farmer list from the dealer, run Field Day lists, record consent",
+          owner: "Farmers in their own territory and dealers",
+          end: "Every farmer is saved once, in the same visit, with no paper" },
+        { id: "mgr", name: "Managers", color: "#7c3aed", icon: "📊",
+          who: "DM, ASM, RSM, Sales Coordination and Sales Head",
+          source: "Plan Field Days, Farmer Meetings and demos, and watch farmer visit numbers",
+          owner: "All farmers and visits in their reporting line",
+          end: "Clear view of farmer coverage and visit compliance" },
+        { id: "adv", name: "Advisory team and call centre", color: "#15803d", icon: "📞",
+          who: "Advisory (tele-calling) team, Team Lead and the call centre",
+          source: "The call centre takes first contact from a farmer. The Advisory team calls Non-User farmers and pitches the product",
+          owner: "The Non-User calling queue and its 24 and 48 hour alerts",
+          end: "No Non-User farmer is forgotten" },
+        { id: "mkt", name: "Marketing", color: "#b45309", icon: "📣",
+          who: "Marketing team",
+          source: "Use farmer data, photos and consent for testimonials, social media and campaigns",
+          owner: "Farmers who gave consent, and Field Day attendance",
+          end: "Real farmer stories and targeted campaigns" },
+        { id: "agr", name: "Agronomy and demand generation (to confirm)", color: "#0f766e", icon: "🧪",
+          who: "Agronomists and the demand generation team",
+          source: "Run demonstrations and demo plots, give samples to farmers, visit farmers to push purchases at dealer counters",
+          owner: "Not stated. No document says they use Salesforce",
+          end: "Proof of results that persuades more farmers" },
+        { id: "dlr", name: "The dealer", color: "#0e7490", icon: "🤝",
+          who: "Active dealers",
+          source: "Give the list of farmers who bought, and receive farmer leads with product information",
+          owner: "Farmers linked to them",
+          end: "More walk-in buyers, with the farmer's name on record" }
+      ],
+
+      connects: [
+        { n: "Dealer 360 (Module 02)", d: "Farmers are linked to up to 4 dealers. The dealer screen shows the farmer list and count" },
+        { n: "Lead Management (Module 01)", d: "Farmer leads from the call centre, WhatsApp and the web, before they become farmers" },
+        { n: "Visit planning and Journey Cycle Plan", d: "Farmer Visit, Field Day and Demo are visit purposes in the plan" },
+        { n: "Marketing Cloud and WhatsApp", d: "Farmer communication, campaigns and enquiries (Session 4)" },
+        { n: "Territory and beat plan", d: "Which rep covers which villages and talukas" },
+        { n: "Samples and cases", d: "Farmer samples and complaints (to confirm how they relate to the SOW sections)" }
+      ],
+
+      /* ---------- sub-modules ---------- */
+      subModules: [
+        {
+          id: "fp", no: 1, name: "Farmer Profile and Records",
+          short: "One clean record per farmer.",
+          purpose: "Keep one record for each farmer, with what the farmer grows, which dealers serve the farmer, and whether the farmer uses Kan Biosys products. Today the farmer profile is basic and inconsistent, and farmers are collected from the dealer counter's list.",
+          points: [
+            "The farmer record is the main record. The dealer screen only shows the link to it.",
+            "Whether a farmer is a Lead first or created directly is still open (F-01)."
+          ],
+          parts: [
+            { n: "1.1 Farmer Record", w: "The basic details of one farmer.",
+              u: "Fills name, mobile, address or village, crops grown, acreage, products used (Kan Biosys and others), cropping pattern, how the farmer heard of Kan Biosys, a satisfaction rating, visit purpose, photo and remarks. The visit SOP lists 16 fields.",
+              s: "Saves GPS automatically, and sets the farmer type. Also keeps product interest, recommended products, order history and a timeline of every visit.",
+              r: "The Session 1 questionnaire lists different fields (gender, cluster, acres). One agreed field list is needed (F-15)." },
+            { n: "1.2 Farmer 360 Screen", w: "The one screen with everything about the farmer.",
+              u: "Opens a farmer and reads it.",
+              s: "Shows profile, type, linked dealers, crops, products used, samples, visit timeline, consent and open tasks. Works on a phone." },
+            { n: "1.3 Duplicate Check", w: "Stops the same farmer being saved twice.",
+              u: "Gets a warning when the mobile number already exists.",
+              s: "Checks the mobile number. If two reps visited the same farmer in the same period, the visit is flagged so it is not counted twice.",
+              r: "Farmers often share a phone. Mobile alone may wrongly block real farmers (F-05)." },
+            { n: "1.4 User or Non-User Tag", w: "Whether the farmer uses Kan Biosys products.",
+              s: "Tags the farmer at save time and routes the next step. This drives the Advisory queue and the Field Day list.",
+              r: "The SOP wants the tag worked out from purchase data, but farmers buy on the dealer's own system, not in Salesforce. In practice the tag can only come from what the rep enters, a coupon, a QR scan or an uploaded receipt (F-03)." },
+            { n: "1.5 Consent", w: "Permission to use the farmer's photo and story.",
+              u: "Records the farmer's consent for testimonial or social media use.",
+              s: "Marks who can be used in marketing. Without consent the farmer stays out of content.",
+              r: "The consent wording is not defined (F-12)." }
+          ],
+          outcome: "One trusted record per farmer, with no duplicates.",
+          q: ["F-01", "F-02", "F-03", "F-05", "F-11", "F-12", "F-15"]
+        },
+        {
+          id: "en", no: 2, name: "How Farmers Enter the System",
+          short: "Two ways in: the farmer contacts us, or a rep finds the farmer.",
+          purpose: "Capture every farmer at the first touch, with no paper, no Excel and no lost lists.",
+          points: [
+            "Inbound: call, WhatsApp, chatbot, website or ads reach the call centre first.",
+            "Field: a rep adds the farmer at a visit, at a dealer counter or at a Field Day."
+          ],
+          parts: [
+            { n: "2.1 Inbound Enquiry", w: "The farmer contacts Kan Biosys.",
+              u: "The call centre takes the contact, and the farmer is directed to nearby dealers.",
+              s: "Creates the farmer or farmer lead and links it to dealers. This path is shared with the Lead module.",
+              r: "Session 4 says WhatsApp leads are routed to the call centre. The product for WhatsApp is not chosen (see Lead module Q-07)." },
+            { n: "2.2 Field Capture at a Visit", w: "The rep meets a farmer on the road, in a village or at a demo.",
+              u: "Adds the farmer in the app at that moment, even with no network.",
+              s: "Saves offline and syncs within 24 hours of getting a network. Offline capture is allowed.",
+              r: "The SOP creates the farmer record directly, not as a lead first. Not yet confirmed." },
+            { n: "2.3 Farmer List from the Dealer", w: "The rep collects the dealer's farmers during a dealer visit.",
+              u: "Opens the Farmer List screen. Adds a new farmer (name, mobile, crop, acreage) or links an existing one. Marks farmers interested in a Field Day or ready for a testimonial. Can use a voice note.",
+              s: "Keeps the dealer reference on every addition and tells the Advisory team when new farmers are added. This is the Existing Dealer SOP, Section G." },
+            { n: "2.4 Capture at Large Events", w: "Fast capture when about 200 farmers attend.",
+              u: "Uses the short format: name, mobile and village only.",
+              s: "Lets the list and a photo be uploaded the same day, and within 24 hours at the latest.",
+              r: "Session 1 describes about 15 minutes per farmer and meeting photos typed into Excel by hand today." }
+          ],
+          outcome: "Every farmer is saved once, in the same visit.",
+          q: ["F-01", "F-02", "F-06", "F-13"]
+        },
+        {
+          id: "dl", no: 3, name: "Farmer and Dealer Links",
+          short: "Connect every farmer to the dealers who can serve them.",
+          purpose: "The dealer is the bridge between Kan Biosys and the farmer. Every farmer is linked to dealers so demand can be passed on and sell-out followed.",
+          points: [
+            "One farmer can be linked to up to 4 dealers.",
+            "Today there is no tagging between farmers and dealers or between dealers and territories (Session 4)."
+          ],
+          parts: [
+            { n: "3.1 Tag Farmer to Dealers", w: "Links a farmer to nearby dealers.",
+              u: "A rep adding a farmer at a dealer visit links the farmer to that dealer. A farmer who contacts the call centre is linked to nearby dealers.",
+              s: "Picks 3 to 4 dealers within 15 to 20 km, using GPS. Stores the dealer on the farmer record.",
+              r: "The radius is 15 km in Session 1 and 20 km in Sessions 2 and 4. The count is 3 to 4 in sessions and up to 4 in the SOP (F-04). Dealer location and territory data must be prepared first." },
+            { n: "3.2 Dealer Informed", w: "The dealer learns about the farmer.",
+              s: "Sends the farmer's lead to the dealer, who gives product information and a local contact." },
+            { n: "3.3 Sell-out", w: "How much of what the dealer bought reached farmers.",
+              s: "Shows four separate numbers per dealer: farmer demand referred, inferred sell-out, dealer-reported sell-out and verified sell-out. Nothing is called verified unless it is.",
+              r: "Farmer purchases happen on the dealer's own system. Salesforce only sees a stock summary the dealer sends." },
+            { n: "3.4 Focus Crops (to confirm)", w: "The crops each dealer concentrates on.",
+              s: "A dealer typically handles 3 to 5 focus crops in its area, and the products for those crops are marked for that dealer using the crop plan (POP)." }
+          ],
+          outcome: "Every farmer is tied to dealers, and demand is passed on.",
+          q: ["F-04", "F-06"]
+        },
+        {
+          id: "fv", no: 4, name: "Farmer Visits",
+          short: "Plan, register and close a farmer visit.",
+          purpose: "Make every farmer visit planned, recorded and visible to managers. Farmer visits are a mandatory part of a rep's KPI (Session 3).",
+          points: [
+            "A routine farmer visit needs no approval. The reporting manager can only see it.",
+            "Visit purpose can be Individual Visit, Field Day or Demo."
+          ],
+          parts: [
+            { n: "4.1 Plan the Visit", w: "The visit is planned from the beat plan and the Journey Cycle Plan.",
+              u: "Sees farmers to visit today. A follow-up visit also shows up when it is due.",
+              s: "Lists planned farmer visits. The Journey Cycle Plan lets the rep choose Farmer Visit, Field Day or Demo as the purpose of each day." },
+            { n: "4.2 Register the Visit", w: "The steps of one farmer visit.",
+              u: "Finds or adds the farmer, picks the purpose, fills the details, adds an optional photo and a remark, records consent, and saves. All mandatory fields are filled in the same visit, before check-out.",
+              s: "Checks the mobile for a duplicate, captures GPS, tags User or Non-User at save, and records time and place at close." },
+            { n: "4.3 When Something Goes Wrong", w: "Exceptions in the field.",
+              u: "If the farmer will not share details, saves what is available with a remark. If the farmer is not there, marks the visit Rescheduled. With no network, saves offline.",
+              s: "None of these blocks the visit. The rep is not penalised." },
+            { n: "4.4 Visit Timeline", w: "Every past visit in one list.",
+              s: "Shows date, who went, purpose and what was discussed, on the farmer record." }
+          ],
+          outcome: "Every farmer visit is recorded once and counted once.",
+          q: ["F-05", "F-13"]
+        },
+        {
+          id: "ad", no: 5, name: "Advisory Follow-up",
+          short: "Make sure every Non-User farmer gets a call.",
+          purpose: "A Non-User farmer is a sales chance. The Advisory team phones the farmer and pitches the product, and the system makes sure nobody is forgotten.",
+          points: [
+            "Non-User farmers go into the Advisory calling queue at once.",
+            "24 hours with no action: Advisory team alert. 48 hours: Advisory Team Lead."
+          ],
+          parts: [
+            { n: "5.1 Calling Queue", w: "The list of Non-User farmers to call.",
+              u: "The Advisory team opens the queue, calls the farmer and records the result.",
+              s: "Adds every new Non-User farmer to the queue straight after the visit is saved.",
+              r: "No document says whether the Advisory team uses Salesforce, or with which licence (F-10)." },
+            { n: "5.2 Alerts and Escalation", w: "Prompts when nobody acts.",
+              s: "After 24 hours with no action the Advisory team is alerted. After 48 hours the Advisory Team Lead is told." },
+            { n: "5.3 New Farmer List Alert", w: "A dealer visit adds farmers.",
+              s: "The Existing Dealer SOP sends an alert to the Advisory team when new farmers are added at a dealer visit, for testimonial and Field Day planning.",
+              r: "What the Advisory team must do with this alert, and by when, is not stated (F-17)." }
+          ],
+          outcome: "No Non-User farmer is left without a follow-up.",
+          q: ["F-03", "F-10", "F-17"]
+        },
+        {
+          id: "sd", no: 6, name: "Samples, Demo Plots and Satellite (to confirm)",
+          short: "Let the farmer try the product and see the result.",
+          purpose: "Farmers believe what they see. Samples and demo plots let a farmer test a product, and the result persuades other farmers.",
+          points: [
+            "Samples go directly to farmers, not to dealers, as part of demand generation.",
+            "Demo plots, satellite monitoring and the satellite dashboard are not in the SOW contents."
+          ],
+          parts: [
+            { n: "6.1 Farmer Samples", w: "A free sample given to a farmer.",
+              u: "Gives a sample and records it on the farmer.",
+              s: "Tracks each sample on the Farmer 360 record, so results can be followed.",
+              r: "The SOW has a separate Sample Management section for customers. It is not clear if farmer samples use it or a lighter record (F-09)." },
+            { n: "6.2 Demo Plots", w: "A planned plot used instead of a sample.",
+              u: "A farmer tests on 1 acre, sees the result, then scales to 10 acres.",
+              s: "Links the plot to visit management. Results are recorded for the next season.",
+              r: "No document says who records the result or whether the agronomist uses Salesforce (F-14)." },
+            { n: "6.3 Satellite Monitoring", w: "Images of the demo plots.",
+              s: "Shows soil moisture, plant height, crop stress and heat maps. The client showed a partial dashboard. An external agency may take over the monitoring. The satellite service is still under review.",
+              r: "Not in the SOW contents. Likely extra scope (F-08)." }
+          ],
+          outcome: "Farmers see proof, and results are kept for the next season.",
+          q: ["F-08", "F-09", "F-10", "F-14"]
+        },
+        {
+          id: "fd", no: 7, name: "Field Days and Testimonials",
+          short: "Bring farmers together and use real stories.",
+          purpose: "Today the list of farmers who attended a Field Day is written on paper and emailed later, so data is lost. The new way captures everyone on the day.",
+          points: [
+            "A DM, ASM or RSM plans the Field Day, Farmer Meeting or demo.",
+            "The SOP says who plans it, but not how it is planned in the app."
+          ],
+          parts: [
+            { n: "7.1 Field Day Capture", w: "Adding every attending farmer.",
+              u: "The rep adds each farmer in the app. For a big crowd, the rep uses the short format and uploads a photo of the event.",
+              s: "The farmer list and the photo must be uploaded the same day, and within 24 hours at the latest. The app warns if a mobile already exists." },
+            { n: "7.2 Marking Interest", w: "Who would like to come again, or tell their story.",
+              u: "Marks farmers interested in a Field Day or ready for a testimonial.",
+              s: "Adds User farmers to the Field Day planning list." },
+            { n: "7.3 Testimonials", w: "Using a farmer's story.",
+              u: "Records the farmer's consent.",
+              s: "Lets Marketing use the story and photo on social media only when consent is recorded." }
+          ],
+          outcome: "Field Day attendance is complete, and testimonials are captured with consent.",
+          q: ["F-12", "F-13"]
+        },
+        {
+          id: "in", no: 8, name: "Cashback, Coupons and QR Codes (to confirm)",
+          short: "Reward farmers for buying, and learn who bought.",
+          purpose: "Farmers buy on the dealer's own system, so Salesforce cannot see purchases. These ideas were raised to bring purchase data back. All of them come only from Sessions 2 and 5.",
+          points: [
+            "This is a loyalty programme, not a farmer profile.",
+            "Either price it as separate work, or agree that Farmer 360 only stores the results."
+          ],
+          parts: [
+            { n: "8.1 Coupon Code", w: "A unique discount code sent to the farmer.",
+              s: "Sends the code to the farmer's registered mobile by WhatsApp. The code is tied to one quantity and one dealer through the dealer's SAP code, so it cannot be reused.",
+              r: "Coupons are hard to track because the dealer's system is outside company control." },
+            { n: "8.2 Direct Cashback", w: "Cashback paid straight to the farmer.",
+              u: "The farmer buys a named product from any dealer and sends proof, such as a photo of the bill.",
+              s: "The company checks the proof and pays the cashback, with no dealer involved." },
+            { n: "8.3 QR Code and Chatbot", w: "A code on every box.",
+              s: "The farmer scans it and the company learns the box was opened. Dealer data and receipts can also be uploaded through the chatbot." },
+            { n: "8.4 Other Incentives", w: "Further ideas mentioned.",
+              s: "Extra discounts on products near expiry, a lucky draw for employees using eligible invoices, and incentives for dealers and farmers. A loyalty tool that works with Salesforce was mentioned, but its name is unclear." }
+          ],
+          outcome: "A decision on what is in scope, before anything is built.",
+          q: ["F-03", "F-07"]
+        },
+        {
+          id: "cn", no: 9, name: "Consultants (to confirm)",
+          short: "Third parties who influence large farmers.",
+          purpose: "A consultant advises large, high-value farmers, recommends products, and earns commission. This appears in Session 2 only. It is not in the SOW, the questionnaire or any SOP.",
+          points: [
+            "A consultant may influence about 200 to 300 farmers and work with several companies.",
+            "This needs a new record, a link to dealers and a commission rule."
+          ],
+          parts: [
+            { n: "9.1 Consultant Record", w: "The consultant and the farmers and dealers around them.",
+              u: "Links dealers to a consultant and records each consultation.",
+              s: "Gives a package of recommended products for each crop stage, like a prescription. A unique ID tracks sales between consultant, farmer and dealer." },
+            { n: "9.2 Commission", w: "How the consultant is paid.",
+              s: "Commission is based on sales and recovery from the tagged dealers. One example is 5% of the combined sales of three dealers. The value is judged by marketing spend against revenue.",
+              r: "Nobody has said who calculates the commission, or whether consultants log in (F-16). This could be heavy to build." }
+          ],
+          outcome: "A decision on whether consultants are in scope.",
+          q: ["F-16"]
+        },
+        {
+          id: "al", no: 10, name: "Alerts and Escalations",
+          short: "Nudge people and push problems up.",
+          purpose: "An alert tells a person something needs attention. An escalation moves it up the chain when nothing is done. The SOP calls the escalation matrix a suggestion, because none exists today.",
+          points: [
+            "Missed farmer visit: reporting manager and Sales Coordination, next day.",
+            "Three days in a row missed: ASM or RSM."
+          ],
+          parts: [
+            { n: "10.1 Alerts", w: "Messages when something needs attention.",
+              s: "To the rep: a farmer saved with a mandatory field missing, or a possible duplicate. To the Advisory team: a new Non-User farmer not actioned in 24 hours, and new farmers added at a dealer visit. Weekly: ASM, RSM and Sales Coordination get a visit compliance percentage by team." },
+            { n: "10.2 Escalations", w: "Alerts that move up when nothing is done.",
+              s: "Non-User not actioned in 48 hours goes to the Advisory Team Lead. A monthly visit target missed is discussed in the monthly review with the RSM or Sales Head.",
+              r: "The Existing Dealer SOP leaves the Marketing alert blank (F-18)." }
+          ],
+          outcome: "Problems reach the right person quickly.",
+          q: ["F-17", "F-18"]
+        },
+        {
+          id: "rd", no: 11, name: "Reports and Dashboards",
+          short: "Give managers a clear farmer view without Excel.",
+          purpose: "Replace paper lists and manual Excel with live reports. Today there is no farmer purchase analysis for liquidation.",
+          points: [
+            "Reports come from the Farmer Visit SOP and the SOW.",
+            "Farmer additions by dealer is a monthly report in the Existing Dealer SOP."
+          ],
+          parts: [
+            { n: "11.1 Farmer Reports", w: "Reports for daily work.",
+              s: "Farmer visits done against planned by employee (in Excel). New farmers added by territory and dealer. User and Non-User split. Coverage by village and dealer. Satisfaction trend by product and region. Field Day attendance against testimonials captured. Farmer coverage against plan, by crop acreage." },
+            { n: "11.2 SOW Reports", w: "Reports named in the SOW.",
+              s: "Dealer and farmer reports on sales, visits, orders, service cases and engagement. The SOW has eight fixed dashboards across the project; none is farmer-only." }
+          ],
+          outcome: "Managers see farmers, visits and results at a glance.",
+          q: ["F-02"]
+        }
+      ],
+
+      /* ---------- journey paths ---------- */
+      flow: {
+        start: {
+          name: "Every farmer starts here", color: "#475569",
+          steps: [
+            { id: "fs1", t: "A farmer is identified", sub: "en", q: ["F-01"], d: "Either the farmer contacts us, or a rep finds the farmer. Whether the farmer is a Lead first or created directly is still to be agreed." },
+            { id: "fs2", t: "Duplicate check", sub: "fp", q: ["F-05"], d: "The mobile number is checked. If it exists, the app warns, so the same farmer is not added twice by different people." },
+            { id: "fs3", t: "Farmer record and dealer link", sub: "dl", q: ["F-04"], d: "The farmer has one record, linked to the dealer or dealers who can serve the farmer." }
+          ]
+        },
+        lanes: [
+          {
+            id: "inbound", name: "Inbound journey", color: "#2563eb", icon: "📞",
+            outcome: "A farmer linked to nearby dealers, and turned into a buying farmer",
+            steps: [
+              { id: "ib1", t: "Farmer contacts us", sub: "en", d: "A call, WhatsApp message, chatbot, website form, ad or campaign. The channels all feed one place." },
+              { id: "ib2", t: "Call centre first contact", sub: "en", d: "The call centre takes the contact first and records the enquiry." },
+              { id: "ib3", t: "Link to 3 or 4 nearby dealers", sub: "dl", q: ["F-04"], d: "Using GPS, the farmer is linked to 3 or 4 dealers within about 15 to 20 km. This needs clean dealer location and territory data." },
+              { id: "ib4", t: "Dealer informed", sub: "dl", d: "The dealer receives the farmer and gives product information and a local contact." },
+              [
+                { id: "ib5", t: "Sample or demo plot", sub: "sd", q: ["F-09"], d: "Samples go directly to the farmer. A demo plot may be planned instead. To confirm." },
+                { id: "ib6", t: "Discount or cashback", sub: "in", q: ["F-07"], d: "A small discount or cashback code may be sent by SMS or WhatsApp. To confirm." }
+              ],
+              { id: "ib7", t: "First purchase", sub: "fp", q: ["F-03"], d: "The farmer becomes a buying farmer. Salesforce cannot see the sale on the dealer's system, so how this is known is still open." }
+            ]
+          },
+          {
+            id: "visit", name: "Field visit journey", color: "#15803d", icon: "📍",
+            outcome: "A farmer saved once, tagged, and routed to the right next step",
+            steps: [
+              { id: "fv1", t: "Open today's plan", sub: "fv", d: "The rep sees the farmers to visit today from the beat plan. A follow-up visit shows up when it is due." },
+              { id: "fv2", t: "Find or add the farmer", sub: "fv", d: "The rep picks a farmer already in the app. If the farmer is new, the rep adds one, even with no network." },
+              { id: "fv3", t: "Duplicate check", sub: "fp", q: ["F-05"], d: "The mobile number is checked. If it exists, the app warns the rep." },
+              { id: "fv4", t: "Capture location", sub: "fv", d: "The app saves the GPS position at the visit, to prove the visit was real." },
+              { id: "fv5", t: "Choose the visit purpose", sub: "fv", d: "Individual Visit, Field Day or Demo." },
+              { id: "fv6", t: "Fill in the farmer details", sub: "fp", q: ["F-15"], d: "Mandatory fields must be filled in the same visit, before check-out. A photo is optional and a remark says what was discussed." },
+              { id: "fv7", t: "Ask for consent", sub: "fp", q: ["F-12"], d: "If the farmer is happy to appear in a testimonial or on social media, the rep records consent." },
+              { id: "fv8", t: "Save and tag", sub: "fp", q: ["F-03"], d: "The app marks the farmer as User or Non-User and sends the data on its way." },
+              { id: "fv9", t: "Close the visit", sub: "fv", q: ["F-13"], d: "Time and place are saved. If the farmer was not there, the visit is marked Rescheduled. With no network, it syncs within 24 hours." }
+            ]
+          },
+          {
+            id: "user", name: "User farmer path", color: "#b45309", icon: "✅",
+            outcome: "A farmer ready for Field Day or a testimonial",
+            steps: [
+              { id: "us1", t: "Tagged User Farmer", sub: "fp", d: "The farmer uses Kan Biosys products." },
+              { id: "us2", t: "Goes on the Field Day list", sub: "fd", d: "The farmer is added to the list for Field Day planning." },
+              { id: "us3", t: "Testimonial, if consent given", sub: "fd", q: ["F-12"], d: "With consent, the farmer can appear in testimonials and social media content." },
+              { id: "us4", t: "Field Day capture", sub: "fd", q: ["F-13"], d: "On the day, the rep adds every attending farmer. For a big crowd the short format is used: name, mobile and village. The list and photo are uploaded the same day, within 24 hours at the latest." }
+            ]
+          },
+          {
+            id: "nonuser", name: "Non-User farmer path", color: "#7c3aed", icon: "📣",
+            outcome: "A Non-User farmer called by the Advisory team",
+            steps: [
+              { id: "nu1", t: "Tagged Non-User", sub: "fp", d: "The farmer does not use Kan Biosys products yet." },
+              { id: "nu2", t: "Goes into the Advisory calling queue", sub: "ad", q: ["F-10"], d: "The farmer is added to the Advisory team's calling queue at once." },
+              { id: "nu3", t: "Advisory team phones the farmer", sub: "ad", d: "The team pitches the product and records the result." },
+              { id: "nu4", t: "24 hours: alert", sub: "ad", q: ["F-17"], d: "If nobody has acted within 24 hours, the Advisory team gets an alert." },
+              { id: "nu5", t: "48 hours: escalation", sub: "ad", d: "If still nothing after 48 hours, the Advisory Team Lead is told." }
+            ]
+          }
+        ],
+        engine: {
+          name: "Alerts and escalations: run alongside every journey", color: "#b45309",
+          steps: [
+            { id: "fa1", t: "Something is due or missed", sub: "al", d: "A visit is missed, a mandatory field is empty, a duplicate is found or a Non-User is not actioned." },
+            { id: "fa2", t: "Alert to the right person", sub: "al", q: ["F-18"], d: "The rep, the manager or the Advisory team gets a reminder." },
+            { id: "fa3", t: "Escalate up the chain", sub: "al", q: ["F-17"], d: "If nothing is done, the alert moves up: reporting manager, ASM or RSM, or the Advisory Team Lead." },
+            { id: "fa4", t: "Action is recorded", sub: "al", d: "The action is saved on the farmer and shows in the weekly compliance report." }
+          ]
+        }
+      },
+
+      /* ---------- questions ---------- */
+      questions: [
+        { id: "F-01", sub: "fp", q: "Is a farmer created directly at the visit, or as a lead first?", why: "Affects the data model, data volume and licensing." },
+        { id: "F-02", sub: "fp", q: "How many farmers are there today, and how many in 2 to 3 years?", why: "Volume decides the object choice and licence cost." },
+        { id: "F-03", sub: "fp", q: "How should User and Non-User be decided, if Salesforce has no purchase data?", why: "Dealers sell on their own systems, so the SOP rule has no data source." },
+        { id: "F-04", sub: "dl", q: "Is the radius 15 or 20 km, and 3 to 4 dealers or up to 4? Who chooses the dealers?", why: "The rule must be exact to automate it." },
+        { id: "F-05", sub: "fp", q: "Is the mobile number the only duplicate check? What if farmers share a phone?", why: "Shared phones can wrongly block real farmers." },
+        { id: "F-06", sub: "en", q: "How many farmers are in the current field app, and is the data clean?", why: "Moving old farmers needs a clean-up we have not sized." },
+        { id: "F-07", sub: "in", q: "Are cashback, coupons, QR codes and the lucky draw in scope, or only their results?", why: "Found in session notes only. Looks like a separate loyalty project." },
+        { id: "F-08", sub: "sd", q: "Is the satellite dashboard in scope, inside Salesforce or as a link?", why: "Not in the SOW contents. Likely extra scope." },
+        { id: "F-09", sub: "sd", q: "Do farmer samples use the Sample Management process or a lighter record?", why: "The SOW covers customer samples, not clearly farmer samples." },
+        { id: "F-10", sub: "ad", q: "Do the demand generation, Advisory and agronomy teams use Salesforce, and with which licences?", why: "No document says they log in. Licence cost depends on it." },
+        { id: "F-11", sub: "fp", q: "Will farmers log in anywhere (portal or WhatsApp)?", why: "Decides whether a farmer portal licence is needed." },
+        { id: "F-12", sub: "fp", q: "What consent wording do you need for using a farmer's photo and data?", why: "Photos and stories are used in marketing." },
+        { id: "F-13", sub: "en", q: "Which languages are needed for voice notes and farmer messages?", why: "Decides the voice note set-up and cost." },
+        { id: "F-14", sub: "sd", q: "Where does the agronomist sit in the company? Does the agronomist use Salesforce, and who records demo plot results?", why: "Agronomists appear only in session notes, never as users." },
+        { id: "F-15", sub: "fp", q: "Which farmer field list is final: the questionnaire's (gender, cluster, acres) or the SOP's 16 fields?", why: "The two lists differ." },
+        { id: "F-16", sub: "cn", q: "Are consultants in scope? If yes, who calculates the commission and do consultants log in?", why: "Found in Session 2 only. Could be heavy to build." },
+        { id: "F-17", sub: "ad", q: "When a dealer visit adds farmers, what must the Advisory team do with the alert, and by when?", why: "The alert is defined, the action is not." },
+        { id: "F-18", sub: "al", q: "The Existing Dealer SOP leaves the Marketing alert blank. What should Marketing be told?", why: "Needed to build the alert." }
+      ]
+    },
+
+    { id: "opp", no: "04", icon: "📈", status: "coming", name: "Opportunity",
       tagline: "Coming next", summary: "" },
-    { id: "exp", no: "04", icon: "🚢", status: "coming", name: "Export",
+    { id: "exp", no: "05", icon: "🚢", status: "coming", name: "Export",
       tagline: "Coming after Opportunity", summary: "" }
   ]
 };
